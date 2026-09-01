@@ -60,7 +60,7 @@ resolvida.
 | `tools/build_site.py` | `data/` → `site/` |
 | `manual-reclamation.html` | fonte do guia de progressão (vira `site/guia.html`) |
 | `data/` | derivado, não versionado — recriar com o extrator |
-| `site/` | o que a Vercel serve |
+| `site/` | o que o GitHub Pages serve |
 
 ## Aviso
 
