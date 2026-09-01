@@ -1,2 +1,4 @@
 .vercel/
 __pycache__/
+# derivado dos jars da instalacao local; recriar com tools/extract.py
+data/

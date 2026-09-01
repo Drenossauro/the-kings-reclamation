@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alterações do pack</title>
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/wiki.css">
+<style>:root{--atlas:url(/icons/atlas.png);--acols:64;--arows:90}</style>
+</head>
+<body>
+<header class="gnav"><div class="gnav-in"><a class="brand" href="index.html">The Kings <span>Reclamation</span></a><nav><a href="index.html">Início</a><a href="guia.html">Guia</a><a href="itens.html">Itens</a><a href="plantas.html">Plantas</a><a href="abelhas.html">Abelhas</a><a href="rituais.html">Rituais</a><a href="alteracoes.html" class="on">Alterações</a><a href="mods.html">Mods</a><a href="livros.html">Livros</a></nav></div></header>
+<main class="page">
+
+<p class="eyebrow">Alterado pelo pack</p>
+<h1>Alterações</h1>
+<p class="lede">Onde a wiki genérica dos mods engana. Estas são as receitas que o Reclamation
+<strong>adiciona</strong> e as que ele <strong>remove</strong> — capturadas executando os
+scripts do pack, não lendo o código.</p>
+<div class="searchbar">
+  <input type="search" id="q" placeholder="buscar por item ou tipo..." autocomplete="off">
+  <select id="modo">
+    <option value="add">Adicionadas pelo pack</option>
+    <option value="rem">Removidas pelo pack</option>
+  </select>
+</div>
+<p class="count" id="count">carregando...</p>
+<div id="out"></div>
+
+<p class="foot">Wiki gerada a partir da instalação local — Reclamation 2.3.2 · Minecraft 1.20.1 · Forge 47.4.0.<br>Dados extraídos dos 169 jars, do datapack do pack e dos scripts KubeJS executados.<br>Se o modpack for atualizado, receitas podem mudar: o EMI in-game é a fonte definitiva.</p>
+</main>
+<script src="assets/wiki.js"></script>
+<script>
+(async () => {
+  await Promise.all([loadNames(), loadAtlas(), loadTags(), loadRecipes()]);
+  const out = document.getElementById("out"), cnt = document.getElementById("count");
+  const added = W.recipes.filter((r) => r.pack);
+  const removed = W.recipes.filter((r) => r.removed);
+
+  function text(r) {
+    return norm([...(r.in || []), ...(r.out || [])].map((x) => nameOf(x.id) + " " + x.id).join(" ")
+      + " " + r.t + " " + (r.where || ""));
+  }
+  function render() {
+    const q = norm(document.getElementById("q").value.trim());
+    const base = document.getElementById("modo").value === "rem" ? removed : added;
+    const list = q ? base.filter((r) => text(r).includes(q)) : base;
+    cnt.textContent = `${list.length} receitas`;
+    const frag = document.createDocumentFragment();
+    list.slice(0, 400).forEach((r) => frag.appendChild(recipeCard(r, (en) => {
+      if (en.k === "i") location.href = "itens.html?id=" + encodeURIComponent(en.id);
+    })));
+    if (list.length > 400) {
+      const p = document.createElement("p");
+      p.className = "dim mono";
+      p.textContent = `... e mais ${list.length - 400}. Refine a busca.`;
+      frag.appendChild(p);
+    }
+    out.replaceChildren(frag);
+  }
+  document.getElementById("q").addEventListener("input", render);
+  document.getElementById("modo").addEventListener("change", render);
+  render();
+})();
+</script>
+</body>
+</html>

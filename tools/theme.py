@@ -1,0 +1,482 @@
+# -*- coding: utf-8 -*-
+"""CSS e JS compartilhados por todas as paginas da wiki."""
+
+CSS = r"""
+:root{
+  --ground:#F0EDE5; --surface:#E7E3D9; --surface-2:#DED9CD;
+  --line:#CBC5B6; --line-soft:#DAD5C8;
+  --ink:#22261F; --ink-2:#4A5044; --ink-3:#6E7568;
+  --verdigris:#3E7C61; --verdigris-soft:#DCE8E1;
+  --copper:#B06B37; --copper-soft:#F0E2D5;
+  --aura:#8E7314; --aura-soft:#EFE8CF;
+  --danger:#A03A2E; --danger-soft:#F3DED9;
+  --rail-dead:#C6C0B1;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#151814; --surface:#1D211B; --surface-2:#242822;
+    --line:#333A30; --line-soft:#2A2F27;
+    --ink:#DDD9CD; --ink-2:#ABB0A2; --ink-3:#848A7C;
+    --verdigris:#6DBE97; --verdigris-soft:#1E2E26;
+    --copper:#D89660; --copper-soft:#2E241B;
+    --aura:#D2B24A; --aura-soft:#2B2716;
+    --danger:#E08379; --danger-soft:#2E1E1B;
+    --rail-dead:#333A30;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#151814; --surface:#1D211B; --surface-2:#242822;
+  --line:#333A30; --line-soft:#2A2F27;
+  --ink:#DDD9CD; --ink-2:#ABB0A2; --ink-3:#848A7C;
+  --verdigris:#6DBE97; --verdigris-soft:#1E2E26;
+  --copper:#D89660; --copper-soft:#2E241B;
+  --aura:#D2B24A; --aura-soft:#2B2716;
+  --danger:#E08379; --danger-soft:#2E1E1B;
+  --rail-dead:#333A30;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+a{color:var(--verdigris)}
+:focus-visible{outline:2px solid var(--verdigris); outline-offset:2px}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important; scroll-behavior:auto!important} }
+
+/* ---------- nav global ---------- */
+.gnav{
+  position:sticky; top:0; z-index:50; background:var(--ground);
+  border-bottom:1px solid var(--line);
+}
+.gnav-in{
+  max-width:1240px; margin:0 auto; padding:0 24px;
+  display:flex; align-items:center; gap:22px; min-height:54px; flex-wrap:wrap;
+}
+.gnav .brand{
+  font-family:"Oswald",Impact,sans-serif; font-weight:600; text-transform:uppercase;
+  font-size:15px; letter-spacing:.02em; text-decoration:none; color:var(--ink);
+  white-space:nowrap;
+}
+.gnav .brand span{color:var(--verdigris)}
+.gnav nav{display:flex; gap:2px; flex-wrap:wrap; margin-left:auto}
+.gnav nav a{
+  font-family:"Oswald",Impact,sans-serif; font-size:12.5px; text-transform:uppercase;
+  letter-spacing:.04em; color:var(--ink-2); text-decoration:none;
+  padding:6px 9px; border-radius:3px;
+}
+.gnav nav a:hover{color:var(--ink); background:var(--surface)}
+.gnav nav a.on{color:var(--verdigris); background:var(--verdigris-soft)}
+
+/* ---------- layout ---------- */
+.page{max-width:1240px; margin:0 auto; padding:34px 24px 110px}
+.page.narrow{max-width:860px}
+h1{
+  font-family:"Oswald",Impact,sans-serif; font-weight:600; text-transform:uppercase;
+  font-size:clamp(30px,4.6vw,46px); line-height:1.02; margin:0 0 8px; text-wrap:balance;
+}
+h2{
+  font-family:"Oswald",Impact,sans-serif; font-weight:600; text-transform:uppercase;
+  font-size:clamp(21px,2.7vw,27px); line-height:1.1; margin:46px 0 6px; text-wrap:balance;
+}
+h3{
+  font-family:"Oswald",Impact,sans-serif; font-weight:500; text-transform:uppercase;
+  font-size:17px; letter-spacing:.01em; margin:30px 0 8px;
+}
+.eyebrow{
+  font-family:"JetBrains Mono",monospace; font-size:10.5px; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--copper); margin:0 0 14px;
+}
+.lede{font-size:18px; color:var(--ink-2); max-width:62ch; margin:0 0 8px}
+p{margin:0 0 15px}
+code{
+  font-family:"JetBrains Mono",ui-monospace,monospace; font-size:.85em;
+  background:var(--surface-2); border:1px solid var(--line-soft);
+  border-radius:3px; padding:1px 5px;
+}
+kbd{
+  font-family:"JetBrains Mono",monospace; font-size:.8em; font-weight:600;
+  background:var(--surface); border:1px solid var(--line); border-bottom-width:2px;
+  border-radius:4px; padding:2px 7px;
+}
+.mono{font-family:"JetBrains Mono",monospace; font-size:12px}
+.dim{color:var(--ink-3)}
+
+/* ---------- hub ---------- */
+.hub{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px; margin:26px 0 0}
+.hub a{
+  display:block; text-decoration:none; color:inherit; background:var(--surface);
+  border:1px solid var(--line); border-radius:5px; padding:18px 19px;
+}
+.hub a:hover{border-color:var(--verdigris)}
+.hub .t{
+  font-family:"Oswald",Impact,sans-serif; text-transform:uppercase; font-size:16px;
+  margin:0 0 5px; color:var(--ink);
+}
+.hub .d{font-size:14.5px; color:var(--ink-2); line-height:1.45; margin:0}
+.hub .c{
+  font-family:"JetBrains Mono",monospace; font-size:10.5px; color:var(--copper);
+  letter-spacing:.08em; text-transform:uppercase; margin:9px 0 0;
+}
+
+/* ---------- stats ---------- */
+.stats{display:flex; flex-wrap:wrap; gap:8px; margin:22px 0 0}
+.stats span{
+  font-family:"JetBrains Mono",monospace; font-size:11px; border:1px solid var(--line);
+  border-radius:2px; padding:5px 9px; color:var(--ink-2); background:var(--surface);
+}
+
+/* ---------- busca ---------- */
+.searchbar{display:flex; gap:10px; align-items:center; margin:22px 0 6px; flex-wrap:wrap}
+.searchbar input[type=search], .searchbar select{
+  font-family:"JetBrains Mono",monospace; font-size:13px;
+  background:var(--surface); color:var(--ink);
+  border:1px solid var(--line); border-radius:4px; padding:9px 12px;
+}
+.searchbar input[type=search]{flex:1; min-width:220px}
+.count{font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--ink-3)}
+
+/* ---------- icones ---------- */
+.ico{
+  display:inline-block; width:32px; height:32px; flex:none;
+  background-image:var(--atlas); background-repeat:no-repeat;
+  image-rendering:pixelated;
+  background-size:calc(var(--acols) * 32px) calc(var(--arows) * 32px);
+}
+.ico.sm{
+  width:20px; height:20px;
+  background-size:calc(var(--acols) * 20px) calc(var(--arows) * 20px);
+}
+.ico.none{background-image:none; border:1px dashed var(--line); border-radius:3px}
+
+/* ---------- listas de item ---------- */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1px;
+  background:var(--line); border:1px solid var(--line); border-radius:5px; overflow:hidden; margin:16px 0 0}
+.cell{
+  background:var(--surface); padding:9px 11px; display:flex; gap:10px; align-items:center;
+  cursor:pointer; text-align:left; border:0; width:100%; font:inherit; color:inherit;
+}
+.cell:hover{background:var(--surface-2)}
+.cell .nm{font-size:14.5px; line-height:1.25; overflow:hidden}
+.cell .id{font-family:"JetBrains Mono",monospace; font-size:10px; color:var(--ink-3);
+  display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+
+/* ---------- cards / tabelas ---------- */
+.card{background:var(--surface); border:1px solid var(--line); border-radius:5px;
+  padding:16px 18px; margin:0 0 14px}
+.tbl{overflow-x:auto; border:1px solid var(--line); border-radius:5px;
+  background:var(--surface); margin:0 0 20px}
+table{border-collapse:collapse; width:100%; font-size:15px; min-width:420px}
+th{
+  text-align:left; font-family:"JetBrains Mono",monospace; font-weight:600;
+  font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3);
+  padding:10px 13px; border-bottom:1px solid var(--line); white-space:nowrap;
+}
+td{padding:10px 13px; border-bottom:1px solid var(--line-soft); vertical-align:top}
+tr:last-child td{border-bottom:0}
+.num{font-variant-numeric:tabular-nums; font-family:"JetBrains Mono",monospace; font-size:13px}
+
+/* ---------- badges ---------- */
+.badge{
+  display:inline-block; font-family:"JetBrains Mono",monospace; font-size:9.5px;
+  letter-spacing:.09em; text-transform:uppercase; padding:2px 6px; border-radius:2px;
+  border:1px solid var(--line); color:var(--ink-3); background:var(--surface-2);
+  vertical-align:middle; white-space:nowrap;
+}
+.badge.pack{color:var(--copper); border-color:var(--copper); background:var(--copper-soft)}
+.badge.gone{color:var(--danger); border-color:var(--danger); background:var(--danger-soft)}
+.badge.ok{color:var(--verdigris); border-color:var(--verdigris); background:var(--verdigris-soft)}
+.badge.aura{color:var(--aura); border-color:var(--aura); background:var(--aura-soft)}
+
+/* ---------- receita ---------- */
+.rec{border:1px solid var(--line); border-radius:5px; background:var(--surface);
+  padding:13px 15px; margin:0 0 11px}
+.rec.gone{opacity:.6; border-style:dashed}
+.rec-h{display:flex; gap:9px; align-items:center; flex-wrap:wrap; margin:0 0 10px}
+.rec-t{font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--ink-3)}
+.flow{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+.side{display:flex; gap:6px; flex-wrap:wrap; align-items:center}
+.arrow{color:var(--ink-3); font-size:18px; line-height:1}
+.chip{
+  display:inline-flex; gap:6px; align-items:center; background:var(--ground);
+  border:1px solid var(--line); border-radius:4px; padding:4px 8px 4px 5px;
+  font-size:13.5px; cursor:pointer; color:inherit; font-family:inherit; text-align:left;
+}
+.chip:hover{border-color:var(--verdigris)}
+.chip .x{font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--ink-3)}
+.chip.tag{border-style:dashed}
+
+/* ---------- painel lateral ---------- */
+.drawer{
+  position:fixed; top:0; right:0; bottom:0; width:min(560px,100%);
+  background:var(--ground); border-left:1px solid var(--line); z-index:80;
+  transform:translateX(100%); transition:transform .2s ease;
+  display:flex; flex-direction:column;
+}
+.drawer.open{transform:none}
+.drawer-h{
+  padding:16px 20px; border-bottom:1px solid var(--line);
+  display:flex; gap:12px; align-items:flex-start;
+}
+.drawer-b{overflow-y:auto; padding:18px 20px 60px; flex:1}
+.drawer .close{
+  margin-left:auto; background:var(--surface); border:1px solid var(--line);
+  border-radius:4px; padding:5px 10px; cursor:pointer; color:var(--ink);
+  font-family:"JetBrains Mono",monospace; font-size:11px;
+}
+.scrim{position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:70; display:none}
+.scrim.on{display:block}
+
+/* ---------- utilidades ---------- */
+.loading{
+  font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--ink-3);
+  padding:26px 0;
+}
+.empty{padding:30px 0; color:var(--ink-3); font-size:15px}
+.foot{
+  margin-top:64px; padding-top:22px; border-top:1px solid var(--line);
+  font-family:"JetBrains Mono",monospace; font-size:11px; line-height:1.8; color:var(--ink-3);
+}
+.note{
+  border:1px solid var(--line); border-left:3px solid var(--ink-3);
+  background:var(--surface); border-radius:0 4px 4px 0;
+  padding:13px 17px; margin:0 0 20px; font-size:15.5px;
+}
+.note p:last-child{margin-bottom:0}
+.note .lbl{
+  display:block; font-family:"JetBrains Mono",monospace; font-size:10px;
+  letter-spacing:.12em; text-transform:uppercase; margin:0 0 5px; color:var(--ink-3);
+}
+.note.tip{border-left-color:var(--verdigris); background:var(--verdigris-soft)}
+.note.tip .lbl{color:var(--verdigris)}
+.note.warn{border-left-color:var(--copper); background:var(--copper-soft)}
+.note.warn .lbl{color:var(--copper)}
+@media (max-width:700px){
+  .gnav-in{padding:8px 16px}
+  .gnav nav{margin-left:0; width:100%}
+  .page{padding:24px 16px 80px}
+  body{font-size:16.5px}
+}
+"""
+
+JS = r"""
+/* ---------------- nucleo compartilhado da wiki ---------------- */
+const W = {
+  names: null, aux: null, atlas: null, recipes: null, tags: null,
+  _p: {},
+};
+
+function once(key, fn) {
+  if (!W._p[key]) W._p[key] = fn();
+  return W._p[key];
+}
+
+async function getJSON(path) {
+  const r = await fetch(path);
+  if (!r.ok) throw new Error(path + ": " + r.status);
+  return r.json();
+}
+
+const loadNames  = () => once("names", async () => {
+  const [n, a] = await Promise.all([getJSON("db/names.json"), getJSON("db/aux_names.json")]);
+  W.names = n; W.aux = a; return n;
+});
+const loadAtlas   = () => once("atlas", async () => (W.atlas = await getJSON("icons/atlas.json")));
+const loadRecipes = () => once("recipes", async () => (W.recipes = await getJSON("db/recipes.json")));
+const loadTags    = () => once("tags", async () => (W.tags = await getJSON("db/tags.json")));
+
+/* nome legivel de um id, com fallback derivado do proprio id */
+function nameOf(id) {
+  if (W.names && W.names[id]) return W.names[id];
+  if (W.aux && W.aux[id]) return W.aux[id].n;
+  const p = String(id).split(":").pop() || String(id);
+  return p.replace(/[_/]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+function kindOf(id) {
+  if (W.names && W.names[id]) return null;
+  if (W.aux && W.aux[id]) return W.aux[id].k;
+  return null;
+}
+
+/* elemento de icone posicionado no atlas */
+function icon(id, small) {
+  const s = document.createElement("span");
+  s.className = "ico" + (small ? " sm" : "");
+  const pos = W.atlas && W.atlas.pos[id];
+  if (!pos) { s.classList.add("none"); return s; }
+  const u = small ? 20 : 32;
+  s.style.backgroundPosition = `-${pos[0] * u}px -${pos[1] * u}px`;
+  return s;
+}
+
+/* chip clicavel de item/tag */
+function chip(entry, onClick) {
+  const b = document.createElement("button");
+  b.className = "chip" + (entry.k === "t" ? " tag" : "");
+  b.type = "button";
+  const id = entry.id;
+  if (entry.k === "t") {
+    const members = (W.tags && W.tags[id]) || [];
+    b.appendChild(icon(members[0], true));
+    const t = document.createElement("span");
+    t.textContent = "qualquer " + nameOf(id).toLowerCase();
+    b.appendChild(t);
+    const c = document.createElement("span");
+    c.className = "x";
+    c.textContent = members.length ? `${members.length} itens` : "tag";
+    b.appendChild(c);
+    b.title = "#" + id;
+  } else {
+    b.appendChild(icon(id, true));
+    const t = document.createElement("span");
+    t.textContent = nameOf(id);
+    b.appendChild(t);
+    if (entry.n && entry.n > 1) {
+      const c = document.createElement("span");
+      c.className = "x";
+      c.textContent = "x" + entry.n;
+      b.appendChild(c);
+    }
+    b.title = id;
+  }
+  if (onClick) b.addEventListener("click", () => onClick(entry));
+  return b;
+}
+
+/* nome curto e legivel do tipo de receita */
+function recipeTypeLabel(t) {
+  const map = {
+    "minecraft:crafting_shaped": "Bancada (com forma)",
+    "minecraft:crafting_shapeless": "Bancada (sem forma)",
+    "minecraft:smelting": "Fornalha",
+    "minecraft:blasting": "Blast Furnace",
+    "minecraft:smoking": "Defumador",
+    "minecraft:campfire_cooking": "Fogueira",
+    "minecraft:stonecutting": "Serra de pedra",
+    "minecraft:smithing_transform": "Bancada de ferraria",
+    "farmersdelight:cutting": "Cutting Board",
+    "farmersdelight:cooking": "Cooking Pot",
+  };
+  if (map[t]) return map[t];
+  const [ns, rest] = String(t).split(":");
+  const pretty = (rest || "").replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  return `${pretty} (${ns})`;
+}
+
+/* card de uma receita */
+function recipeCard(r, onItem) {
+  const d = document.createElement("div");
+  d.className = "rec" + (r.removed ? " gone" : "");
+
+  const h = document.createElement("div");
+  h.className = "rec-h";
+  const t = document.createElement("span");
+  t.className = "rec-t";
+  t.textContent = recipeTypeLabel(r.t);
+  h.appendChild(t);
+  if (r.pack) {
+    const b = document.createElement("span");
+    b.className = "badge pack";
+    b.textContent = "adicionada pelo pack";
+    b.title = r.where || "";
+    h.appendChild(b);
+  }
+  if (r.removed) {
+    const b = document.createElement("span");
+    b.className = "badge gone";
+    b.textContent = "removida pelo pack";
+    h.appendChild(b);
+  }
+  d.appendChild(h);
+
+  const flow = document.createElement("div");
+  flow.className = "flow";
+  const left = document.createElement("div");
+  left.className = "side";
+  (r.in || []).forEach((e) => left.appendChild(chip(e, onItem)));
+  if (!(r.in || []).length) {
+    const s = document.createElement("span");
+    s.className = "dim";
+    s.textContent = "sem ingrediente listado";
+    left.appendChild(s);
+  }
+  flow.appendChild(left);
+
+  const a = document.createElement("span");
+  a.className = "arrow";
+  a.textContent = "→";
+  flow.appendChild(a);
+
+  const right = document.createElement("div");
+  right.className = "side";
+  (r.out || []).forEach((e) => right.appendChild(chip(e, onItem)));
+  if (!(r.out || []).length) {
+    const s = document.createElement("span");
+    if (r.outv) {
+      s.className = "badge aura";
+      s.textContent = `${r.outk || "resultado"}: ${nameOf(r.outv)}`;
+    } else {
+      s.className = "dim";
+      s.textContent = "resultado nao e um item";
+    }
+    right.appendChild(s);
+  }
+  flow.appendChild(right);
+  d.appendChild(flow);
+  return d;
+}
+
+/* indices reversos: item -> receitas que o produzem / consomem */
+function buildIndex() {
+  if (W._idx) return W._idx;
+  const made = new Map(), used = new Map();
+  const push = (m, k, v) => { if (!m.has(k)) m.set(k, []); m.get(k).push(v); };
+  W.recipes.forEach((r, i) => {
+    (r.out || []).forEach((e) => { if (e.k === "i") push(made, e.id, i); });
+    (r.in || []).forEach((e) => {
+      if (e.k === "i") push(used, e.id, i);
+      else if (W.tags && W.tags[e.id]) W.tags[e.id].forEach((m) => push(used, m, i));
+    });
+  });
+  W._idx = { made, used };
+  return W._idx;
+}
+
+/* drawer lateral reutilizavel */
+function drawer() {
+  if (W._drawer) return W._drawer;
+  const scrim = document.createElement("div");
+  scrim.className = "scrim";
+  const el = document.createElement("aside");
+  el.className = "drawer";
+  el.innerHTML =
+    '<div class="drawer-h"><div class="dh-body"></div>' +
+    '<button class="close" type="button">fechar</button></div>' +
+    '<div class="drawer-b"></div>';
+  document.body.appendChild(scrim);
+  document.body.appendChild(el);
+  const close = () => { el.classList.remove("open"); scrim.classList.remove("on"); };
+  el.querySelector(".close").addEventListener("click", close);
+  scrim.addEventListener("click", close);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  W._drawer = {
+    el, scrim, close,
+    open(headEl, bodyEl) {
+      const h = el.querySelector(".dh-body"), b = el.querySelector(".drawer-b");
+      h.replaceChildren(headEl);
+      b.replaceChildren(bodyEl);
+      b.scrollTop = 0;
+      el.classList.add("open");
+      scrim.classList.add("on");
+    },
+  };
+  return W._drawer;
+}
+
+/* normaliza texto pra busca (sem acento, minusculo) */
+function norm(s) {
+  return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+}
+"""

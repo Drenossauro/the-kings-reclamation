@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rituais do Reclamation</title>
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/wiki.css">
+<style>:root{--atlas:url(/icons/atlas.png);--acols:64;--arows:90}</style>
+</head>
+<body>
+<header class="gnav"><div class="gnav-in"><a class="brand" href="index.html">The Kings <span>Reclamation</span></a><nav><a href="index.html">Início</a><a href="guia.html">Guia</a><a href="itens.html">Itens</a><a href="plantas.html">Plantas</a><a href="abelhas.html">Abelhas</a><a href="rituais.html" class="on">Rituais</a><a href="alteracoes.html">Alterações</a><a href="mods.html">Mods</a><a href="livros.html">Livros</a></nav></div></header>
+<main class="page">
+
+<p class="eyebrow">Rituais</p>
+<h1>Rituais</h1>
+<p class="lede">O <strong>Reclamation Rituals</strong> é o livro exclusivo do pack — não existe
+documentação dele em lugar nenhum. Abaixo, as entradas do livro e os rites de circle magic com
+reagentes e círculos de giz.</p>
+<div class="note warn"><span class="lbl">Atenção</span>
+<p>O <strong>Ritual of Reclamation</strong> pode apagar blocos. Execute longe de qualquer coisa
+que você preze.</p></div>
+<div class="searchbar">
+  <input type="search" id="q" placeholder="buscar ritual..." autocomplete="off">
+  <select id="modo">
+    <option value="book">Livro do pack</option>
+    <option value="circle">Circle magic (reagentes)</option>
+  </select>
+</div>
+<p class="count" id="count"></p>
+<div id="out"></div>
+
+<p class="foot">Wiki gerada a partir da instalação local — Reclamation 2.3.2 · Minecraft 1.20.1 · Forge 47.4.0.<br>Dados extraídos dos 169 jars, do datapack do pack e dos scripts KubeJS executados.<br>Se o modpack for atualizado, receitas podem mudar: o EMI in-game é a fonte definitiva.</p>
+</main>
+<script src="assets/wiki.js"></script>
+<script>const ENTRIES = [{"name":"Bud Amethyst","icon":"minecraft:budding_amethyst","cat":"basic_rituals","text":"Use this rite to convert a block of amethyst into its regrowing budding version.","rite":"reclamation:bud_amethyst"},{"name":"Create Bee Nest","icon":"minecraft:bee_nest","cat":"basic_rituals","text":"Use this rite to create a wasteland bee nest. If there is a bee dropped within three blocks of the ritual circle, the ritual will consume it and change the type of the summoned bee nest to be the dropped bee's primary species.$(br2)Warning: this will also void any additional items within 3 blocks.","rite":"reclamation:summon_nest"},{"name":"Create Blaze Cage","icon":"create:empty_blaze_burner","cat":"basic_rituals","text":"Use this rite to create a magical cage that can contain a blaze indefinitely.","rite":"reclamation:blaze_cage"},{"name":"Create Ender Portal","icon":"minecraft:end_portal_frame","cat":"basic_rituals","text":"Use this rite to create an ender portal frame.","rite":"reclamation:ender_portal"},{"name":"Digital Meteor","icon":"ae2:mysterious_cube","cat":"basic_rituals","text":"Use this rite to summon a meteor from the skies containing a mysterious cube.$(br2)WARNING: this WILL delete blocks in a 5x5 cube around the circle's center.","rite":"reclamation:digital_meteor"},{"name":"Infuse Amalgam","icon":"kubejs:infused_amalgam","cat":"basic_rituals","text":"Use this rite to infuse a pre-prepared amalgam with the energies of life.","rite":"reclamation:infuse_amalgam"},{"name":"Ritual of Bad Omens","icon":"minecraft:crossbow","cat":"basic_rituals","text":"Use this rite to apply the bad omen effect to players within the nether chalk circle.","rite":"reclamation:bad_omen"},{"name":"Summon Aquatic Guardians","icon":"minecraft:prismarine","cat":"basic_rituals","text":"Use this rite to summon an elder guardian and two smaller regular guardians.","rite":"reclamation:guardians"},{"name":"Summon Blaze","icon":"minecraft:blaze_rod","cat":"basic_rituals","text":"Use this rite to summon a blaze. This blaze always drops at least 3 blaze rods.","rite":"reclamation:summon_blaze"},{"name":"Bamboo Jungle","icon":"minecraft:bamboo","cat":"terraforming","text":"This rite will convert the surrounding area into a bamboo forest with appropriate vegetation. It has a range of 16 blocks.","rite":"reclamation:terraforming/bamboo_jungle"},{"name":"Basalt Delta","icon":"minecraft:basalt","cat":"terraforming","text":"This rite will convert the surrounding area into a basalt delta with appropriate vegetation. It has a range of 16 blocks.$(br2)You might want to step back once this ritual starts.","rite":"reclamation:terraforming/delta"},{"name":"Beach","icon":"minecraft:kelp","cat":"terraforming","text":"This rite will convert the surrounding area into a beach. It has a range of 16 blocks.","rite":"reclamation:terraforming/beach"},{"name":"Crimson Forest","icon":"minecraft:crimson_nylium","cat":"terraforming","text":"This rite will convert the surrounding area into a crimson forest with appropriate vegetation. It has a range of 16 blocks.","rite":"reclamation:terraforming/crimson"},{"name":"Desert","icon":"minecraft:sand","cat":"terraforming","text":"This rite will convert the surrounding area into a desert. It has a range of 16 blocks.","rite":"reclamation:terraforming/desert"},{"name":"Forest","icon":"minecraft:oak_sapling","cat":"terraforming","text":"This rite will convert the surrounding area into a forest. It has a range of 16 blocks.","rite":"reclamation:terraforming/forest"},{"name":"Mushroom Field","icon":"minecraft:red_mushroom_block","cat":"terraforming","text":"This rite will convert the surrounding area into a mushroom field. It has a range of 16 blocks.","rite":"reclamation:terraforming/mushroom_fields"},{"name":"Nether Wastes","icon":"minecraft:netherrack","cat":"terraforming","text":"This rite will convert the surrounding area into a nether waste. It has a range of 16 blocks.","rite":"reclamation:terraforming/wastes"},{"name":"Ocean","icon":"minecraft:seagrass","cat":"terraforming","text":"This rite will convert the surrounding area into an ocean. It has a range of 16 blocks.","rite":"reclamation:terraforming/ocean"},{"name":"Plains","icon":"minecraft:grass","cat":"terraforming","text":"This rite will convert the surrounding area into a plains. It has a range of 16 blocks.","rite":"reclamation:terraforming/plains"},{"name":"Reclamation","icon":"minecraft:grass_block","cat":"terraforming","text":"This rite will convert wasteland biomes into their living equivalents. It has a range of 24 blocks from the center of the ritual circle.","rite":"reclamation:terraforming/reclaim"},{"name":"River","icon":"minecraft:cod","cat":"terraforming","text":"This rite will convert the surrounding area into a river. It has a range of 16 blocks.","rite":"reclamation:terraforming/river"},{"name":"Snowy Slope","icon":"minecraft:snow_block","cat":"terraforming","text":"This rite will convert the surrounding area into a snowy slope. It has a range of 16 blocks.","rite":"reclamation:terraforming/snowy_slopes"},{"name":"Soul Sand Valley","icon":"minecraft:soul_sand","cat":"terraforming","text":"This rite will convert the surrounding area into a soul sand valley. It has a range of 16 blocks.","rite":"reclamation:terraforming/soul_sand_valley"},{"name":"Warm Ocean","icon":"minecraft:bubble_coral_block","cat":"terraforming","text":"This rite will convert the surrounding area into a warm ocean. It has a range of 16 blocks.","rite":"reclamation:terraforming/warm_ocean"},{"name":"Warped Forest","icon":"minecraft:warped_nylium","cat":"terraforming","text":"This rite will convert the surrounding area into a warped forest with appropriate vegetation. It has a range of 16 blocks.","rite":"reclamation:terraforming/warped"}];
+const RITES = {"fertility":{"items":[{"id":"enchanted:quicklime","n":1},{"id":"enchanted:gypsum","n":1},{"id":"enchanted:mutandis","n":1},{"id":"minecraft:bone_meal","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk"},"factory":"enchanted:fertility","path":"enchanted/enchanted/circle_magic/rite/fertility"},"forest":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":1},{"id":"bloodmagic:etherealslate","n":1},{"id":"bloodmagic:steadfastcrystal","n":1},{"id":"minecraft:oak_sapling","n":1},{"id":"minecraft:birch_sapling","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/forest"},"bad_omen":{"items":[{"id":"minecraft:crossbow","n":1},{"id":"minecraft:diamond","n":1},{"id":"minecraft:emerald","n":1},{"id":"enchanted:tear_of_the_goddess","n":1},{"id":"enchanted:demonic_blood","n":1}],"shapes":{"enchanted:small_circle":"enchanted:nether_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/bad_omen"},"blaze_cage":{"items":[{"id":"embers:iron_plate","n":2},{"id":"enchanted:exhale_of_the_horned_one","n":1},{"id":"minecraft:netherrack","n":1},{"id":"botania:rune_fire","n":1}],"shapes":{"enchanted:small_circle":"enchanted:nether_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:create_item","path":"reclamation/enchanted/circle_magic/rite/blaze_cage"},"bud_amethyst":{"items":[{"id":"minecraft:amethyst_block","n":1},{"id":"enchanted:mutandis","n":1},{"id":"bloodmagic:activationcrystalweak","n":1},{"id":"botania:rune_greed","n":1},{"id":"botania:rune_gluttony","n":1}],"shapes":{"reclamation:clover":"enchanted:otherwhere_chalk"},"factory":"enchanted:create_item","path":"reclamation/enchanted/circle_magic/rite/bud_amethyst"},"creative_cube":{"items":[{"id":"mekanism:creative_chemical_tank","n":1},{"id":"mekanism:ultimate_induction_cell","n":4},{"id":"mekanism:ultimate_induction_provider","n":4},{"id":"mekanism:sps_casing","n":4},{"id":"create:creative_motor","n":2}],"shapes":{"enchanted:small_circle":"enchanted:otherwhere_chalk","reclamation:clover":"enchanted:otherwhere_chalk","enchanted:large_circle":"enchanted:otherwhere_chalk"},"factory":"enchanted:create_item","path":"reclamation/enchanted/circle_magic/rite/creative_cube"},"digital_meteor":{"items":[{"id":"ae2:fluix_crystal","n":4},{"id":"enchanted:drop_of_luck","n":1},{"id":"minecraft:fire_charge","n":1},{"id":"botania:rune_summer","n":1}],"shapes":{"enchanted:small_circle":"enchanted:otherwhere_chalk","reclamation:clover":"enchanted:otherwhere_chalk","enchanted:large_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/digital_meteor"},"ender_portal":{"items":[{"id":"reclamation_util:arid_biome_bottle","n":1},{"id":"reclamation_util:hellish_biome_bottle","n":1},{"id":"reclamation_util:icy_biome_bottle","n":1},{"id":"reclamation_util:lush_biome_bottle","n":1},{"id":"reclamation_util:mycelic_biome_bottle","n":1},{"id":"reclamation_util:watery_biome_bottle","n":1},{"id":"embers:intelligent_apparatus","n":1},{"id":"mekanism:pellet_antimatter","n":1},{"id":"botania:ender_air_bottle","n":1},{"id":"ars_elemental:anima_essence","n":1}],"shapes":{"enchanted:small_circle":"enchanted:otherwhere_chalk","reclamation:clover":"enchanted:otherwhere_chalk","enchanted:large_circle":"enchanted:otherwhere_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/ender_portal"},"guardians":{"items":[{"id":"minecraft:prismarine_bricks","n":1},{"id":"minecraft:sea_lantern","n":1},{"id":"minecraft:cod","n":1},{"id":"minecraft:salmon","n":1},{"id":"enchanted:tear_of_the_goddess","n":1},{"id":"enchanted:ender_dew","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:nether_chalk","enchanted:large_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/guardians"},"infuse_amalgam":{"items":[{"id":"kubejs:mana_amalgam","n":1},{"id":"enchanted:exhale_of_the_horned_one","n":1},{"id":"enchanted:breath_of_the_goddess","n":1},{"id":"enchanted:gypsum","n":1}],"shapes":{"enchanted:small_circle":"enchanted:nether_chalk","enchanted:medium_circle":"enchanted:ritual_chalk","enchanted:large_circle":"enchanted:otherwhere_chalk"},"factory":"enchanted:create_item","path":"reclamation/enchanted/circle_magic/rite/infuse_amalgam"},"summon_blaze":{"items":[{"id":"botania:fel_pumpkin","n":1},{"id":"enchanted:foul_fume","n":1},{"id":"enchanted:hint_of_rebirth","n":1},{"id":"botania:rune_fire","n":1}],"shapes":{"enchanted:small_circle":"enchanted:nether_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/summon_blaze"},"summon_nest":{"items":[{"id":"enchanted:mutandis","n":2},{"id":"complicated_bees:propolis","n":4},{"id":"enchanted:whiff_of_magic","n":1},{"id":"botania:rune_earth","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/summon_nest"},"bamboo_jungle":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":4},{"id":"bloodmagic:etherealslate","n":1},{"id":"mekanism:pellet_plutonium","n":1},{"id":"botania:gaia_ingot","n":1},{"id":"botania:astrolabe","n":1},{"id":"botania:virus_necrodermal","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/bamboo_jungle"},"beach":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":1},{"id":"bloodmagic:etherealslate","n":1},{"id":"bloodmagic:steadfastcrystal","n":1},{"id":"minecraft:sand","n":1},{"id":"minecraft:seagrass","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/beach"},"crimson":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":1},{"id":"bloodmagic:etherealslate","n":1},{"id":"bloodmagic:vengefulcrystal","n":1},{"id":"botania:life_essence","n":1},{"id":"minecraft:crimson_fungus","n":1},{"id":"minecraft:crimson_nylium","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:nether_chalk","enchanted:medium_circle":"enchanted:nether_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/crimson"},"delta":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":1},{"id":"bloodmagic:etherealslate","n":1},{"id":"bloodmagic:steadfastcrystal","n":1},{"id":"botania:life_essence","n":1},{"id":"minecraft:blackstone","n":1},{"id":"minecraft:basalt","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:nether_chalk","enchanted:medium_circle":"enchanted:nether_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/delta"},"desert":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":2},{"id":"bloodmagic:etherealslate","n":2},{"id":"embers:focal_lens","n":1},{"id":"embers:isolated_materia","n":1},{"id":"embers:wildfire_core","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/desert"},"mushroom_fields":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":2},{"id":"bloodmagic:etherealslate","n":2},{"id":"naturesaura:token_grief","n":1},{"id":"naturesaura:token_euphoria","n":1},{"id":"naturesaura:token_terror","n":1},{"id":"naturesaura:token_rage","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/mushroom_fields"},"ocean":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":1},{"id":"bloodmagic:etherealslate","n":1},{"id":"bloodmagic:steadfastcrystal","n":1},{"id":"minecraft:sea_pickle","n":1},{"id":"minecraft:kelp","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/ocean"},"plains":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":1},{"id":"bloodmagic:etherealslate","n":1},{"id":"bloodmagic:steadfastcrystal","n":1},{"id":"minecraft:grass","n":1},{"id":"ars_noveau:earth_essence","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/plains"},"reclaim":{"items":[{"id":"botania:laputa_shard","n":1},{"id":"bloodmagic:etherealslate","n":4},{"id":"bloodmagic:corrosivecrystal","n":1},{"id":"bloodmagic:vengefulcrystal","n":1},{"id":"bloodmagic:steadfastcrystal","n":1},{"id":"bloodmagic:destructivecrystal","n":1},{"id":"enchanted:drop_of_luck","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:nether_chalk","enchanted:large_circle":"enchanted:otherwhere_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/reclaim"},"river":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":1},{"id":"bloodmagic:etherealslate","n":1},{"id":"bloodmagic:steadfastcrystal","n":1},{"id":"minecraft:cod","n":1},{"id":"minecraft:salmon","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/river"},"snowy_slopes":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":8},{"id":"mysticalagriculture:supremium_essence","n":2},{"id":"mekanism:pellet_polonium","n":1},{"id":"advanced_ae:shattered_singularity","n":2},{"id":"croptopia:vanilla_ice_cream","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/snowy_slopes"},"soul_sand_valley":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":1},{"id":"bloodmagic:etherealslate","n":1},{"id":"bloodmagic:destructivecrystal","n":1},{"id":"botania:life_essence","n":1},{"id":"minecraft:soul_sand","n":1},{"id":"minecraft:soul_soil","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:nether_chalk","enchanted:medium_circle":"enchanted:nether_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/soul_sand_valley"},"warm_ocean":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":4},{"id":"bloodmagic:etherealslate","n":1},{"id":"mekanism:pellet_plutonium","n":1},{"id":"ars_nouveau:wilden_tribute","n":1},{"id":"ars_elemental:mark_of_mastery","n":1},{"id":"ars_elemental:water_focus","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:ritual_chalk","enchanted:medium_circle":"enchanted:ritual_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/warm_ocean"},"warped":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":1},{"id":"bloodmagic:etherealslate","n":1},{"id":"bloodmagic:corrosivecrystal","n":1},{"id":"botania:life_essence","n":1},{"id":"minecraft:warped_fungus","n":1},{"id":"minecraft:warped_nylium","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:nether_chalk","enchanted:medium_circle":"enchanted:nether_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/warped"},"wastes":{"items":[{"id":"reclamation_util:filled_biome_bottle","n":1},{"id":"bloodmagic:etherealslate","n":1},{"id":"bloodmagic:defaultcrystal","n":1},{"id":"botania:life_essence","n":1},{"id":"minecraft:netherrack","n":1},{"id":"minecraft:nether_brick","n":1},{"id":"enchanted:attuned_stone_charged","n":1}],"shapes":{"enchanted:small_circle":"enchanted:nether_chalk","enchanted:medium_circle":"enchanted:nether_chalk"},"factory":"enchanted:command","path":"reclamation/enchanted/circle_magic/rite/terraforming/wastes"}};
+
+(async () => {
+  await Promise.all([loadNames(), loadAtlas()]);
+  const out = document.getElementById("out"), cnt = document.getElementById("count");
+  const CAT = { basic_rituals: "Rituais básicos", terraforming: "Terraformação" };
+  const cap = (s) => String(s).replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+  function renderBook(q) {
+    const list = ENTRIES.filter((x) => !q || norm(x.name + " " + x.text).includes(q));
+    cnt.textContent = `${list.length} entradas do livro`;
+    const frag = document.createDocumentFragment();
+    let cur = null;
+    list.forEach((x) => {
+      if (x.cat !== cur) {
+        cur = x.cat;
+        const h = document.createElement("h2");
+        h.textContent = CAT[cur] || cap(cur);
+        frag.appendChild(h);
+      }
+      const c = document.createElement("div");
+      c.className = "card";
+      const head = document.createElement("div");
+      head.style.cssText = "display:flex;gap:10px;align-items:center;margin-bottom:8px";
+      if (x.icon) head.appendChild(icon(x.icon));
+      const t = document.createElement("div");
+      t.style.cssText = "font-family:Oswald,sans-serif;text-transform:uppercase;font-size:16px";
+      t.textContent = x.name;
+      head.appendChild(t);
+      if (x.rite) {
+        const b = document.createElement("span");
+        b.className = "badge aura";
+        b.textContent = x.rite;
+        head.appendChild(b);
+      }
+      c.appendChild(head);
+      const p = document.createElement("p");
+      p.style.margin = "0";
+      p.textContent = x.text.replace(/\$\(.*?\)/g, "").replace(/\s+/g, " ").trim() || "—";
+      c.appendChild(p);
+      frag.appendChild(c);
+    });
+    out.replaceChildren(frag);
+  }
+
+  function renderCircle(q) {
+    const keys = Object.keys(RITES).filter((k) => !q || norm(k).includes(q)).sort();
+    cnt.textContent = `${keys.length} rites de circle magic`;
+    const frag = document.createDocumentFragment();
+    keys.forEach((k) => {
+      const r = RITES[k];
+      const c = document.createElement("div");
+      c.className = "card";
+      const t = document.createElement("div");
+      t.style.cssText = "font-family:Oswald,sans-serif;text-transform:uppercase;font-size:16px;margin-bottom:9px";
+      t.textContent = cap(k);
+      c.appendChild(t);
+
+      const circles = Object.entries(r.shapes || {});
+      if (circles.length) {
+        const s = document.createElement("p");
+        s.style.cssText = "margin:0 0 9px";
+        s.innerHTML = circles.map(([shape, chalk]) =>
+          `<span class="badge">${cap(String(shape).split(":").pop())} · ${cap(String(chalk).split(":").pop())}</span>`
+        ).join(" ");
+        c.appendChild(s);
+      }
+      const side = document.createElement("div");
+      side.className = "side";
+      (r.items || []).forEach((i) => side.appendChild(chip({ k: "i", id: i.id, n: i.n })));
+      if (!r.items.length) {
+        const d = document.createElement("span");
+        d.className = "dim"; d.textContent = "sem reagente listado";
+        side.appendChild(d);
+      }
+      c.appendChild(side);
+      frag.appendChild(c);
+    });
+    out.replaceChildren(frag);
+  }
+
+  function render() {
+    const q = norm(document.getElementById("q").value.trim());
+    if (document.getElementById("modo").value === "circle") renderCircle(q);
+    else renderBook(q);
+  }
+  document.getElementById("q").addEventListener("input", render);
+  document.getElementById("modo").addEventListener("change", render);
+  render();
+})();
+</script>
+</body>
+</html>

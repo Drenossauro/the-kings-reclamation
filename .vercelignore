@@ -1,3 +1,5 @@
+data/
+tools/
 build.py
 MANUAL-RECLAMATION-PTBR.md
 manual-reclamation.html

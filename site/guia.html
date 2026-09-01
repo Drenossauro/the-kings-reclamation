@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guia de progressão — Reclamation</title>
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/wiki.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+
+<style>
+:root{
+  --ground:#F0EDE5;
+  --surface:#E7E3D9;
+  --surface-2:#DED9CD;
+  --line:#CBC5B6;
+  --line-soft:#DAD5C8;
+  --ink:#22261F;
+  --ink-2:#4A5044;
+  --ink-3:#6E7568;
+  --verdigris:#3E7C61;
+  --verdigris-soft:#DCE8E1;
+  --copper:#B06B37;
+  --copper-soft:#F0E2D5;
+  --aura:#8E7314;
+  --aura-soft:#EFE8CF;
+  --rail-dead:#C6C0B1;
+  --shadow:0 1px 0 rgba(34,38,31,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#151814;
+    --surface:#1D211B;
+    --surface-2:#242822;
+    --line:#333A30;
+    --line-soft:#2A2F27;
+    --ink:#DDD9CD;
+    --ink-2:#ABB0A2;
+    --ink-3:#848A7C;
+    --verdigris:#6DBE97;
+    --verdigris-soft:#1E2E26;
+    --copper:#D89660;
+    --copper-soft:#2E241B;
+    --aura:#D2B24A;
+    --aura-soft:#2B2716;
+    --rail-dead:#333A30;
+    --shadow:0 1px 0 rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#151814;
+  --surface:#1D211B;
+  --surface-2:#242822;
+  --line:#333A30;
+  --line-soft:#2A2F27;
+  --ink:#DDD9CD;
+  --ink-2:#ABB0A2;
+  --ink-3:#848A7C;
+  --verdigris:#6DBE97;
+  --verdigris-soft:#1E2E26;
+  --copper:#D89660;
+  --copper-soft:#2E241B;
+  --aura:#D2B24A;
+  --aura-soft:#2B2716;
+  --rail-dead:#333A30;
+  --shadow:0 1px 0 rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- shell ---------- */
+.shell{display:grid;grid-template-columns:280px minmax(0,1fr);gap:0;max-width:1240px;margin:0 auto}
+
+/* ---------- sidebar ---------- */
+.side{
+  position:sticky;top:0;align-self:start;height:100vh;
+  display:flex;flex-direction:column;
+  border-right:1px solid var(--line);
+  background:var(--ground);
+}
+.side-head{padding:32px 28px 18px}
+.mark{
+  font-family:"Oswald",Impact,sans-serif;font-weight:600;
+  font-size:22px;line-height:1.05;letter-spacing:.01em;text-transform:uppercase;
+  margin:0;
+}
+.mark span{color:var(--verdigris)}
+.mark-sub{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3);margin:9px 0 0;
+}
+.nav-wrap{position:relative;flex:1;min-height:0;overflow-y:auto;padding:6px 28px 40px}
+.rail{position:absolute;left:28px;top:6px;bottom:40px;width:2px;background:var(--rail-dead);border-radius:2px}
+.rail-fill{position:absolute;left:0;top:0;width:2px;height:0;background:var(--verdigris);border-radius:2px}
+.nav{list-style:none;margin:0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:1px}
+.nav a{
+  display:flex;gap:9px;align-items:baseline;
+  padding:5px 0;text-decoration:none;color:var(--ink-2);
+  font-family:"Oswald",Impact,sans-serif;font-weight:400;font-size:13.5px;
+  letter-spacing:.015em;line-height:1.3;
+  border-radius:3px;
+}
+.nav a .n{
+  font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-3);
+  min-width:16px;font-variant-numeric:tabular-nums;
+}
+.nav a:hover{color:var(--ink)}
+.nav a:focus-visible{outline:2px solid var(--verdigris);outline-offset:2px}
+.nav a.on{color:var(--verdigris);font-weight:500}
+.nav a.on .n{color:var(--verdigris)}
+.nav .grp{
+  font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3);
+  margin:20px 0 5px;
+}
+.nav li:first-child .grp{margin-top:6px}
+
+/* ---------- main ---------- */
+.main{padding:0 0 120px;min-width:0}
+.wrap{max-width:720px;padding:0 40px}
+
+.masthead{padding:76px 40px 44px;border-bottom:1px solid var(--line);max-width:820px}
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--copper);margin:0 0 18px;
+}
+h1{
+  font-family:"Oswald",Impact,sans-serif;font-weight:600;
+  font-size:clamp(38px,6vw,60px);line-height:.98;letter-spacing:-.005em;
+  text-transform:uppercase;margin:0;text-wrap:balance;
+}
+h1 em{font-style:normal;color:var(--verdigris)}
+.dek{font-size:19px;line-height:1.55;color:var(--ink-2);margin:22px 0 0;max-width:56ch}
+.meta{
+  display:flex;flex-wrap:wrap;gap:8px;margin:30px 0 0;
+  font-family:"JetBrains Mono",monospace;font-size:11px;
+}
+.meta span{
+  border:1px solid var(--line);border-radius:2px;padding:5px 9px;color:var(--ink-2);
+  background:var(--surface);
+}
+
+section{padding-top:64px;scroll-margin-top:24px}
+h2{
+  font-family:"Oswald",Impact,sans-serif;font-weight:600;text-transform:uppercase;
+  font-size:clamp(25px,3.4vw,33px);line-height:1.08;letter-spacing:.005em;
+  margin:0 0 6px;text-wrap:balance;
+}
+.h2-tag{
+  font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--copper);margin:0 0 10px;
+}
+.h2-tag.q{color:var(--ink-3)}
+h3{
+  font-family:"Oswald",Impact,sans-serif;font-weight:500;font-size:19px;
+  letter-spacing:.01em;margin:38px 0 10px;text-transform:uppercase;color:var(--ink);
+}
+h4{
+  font-family:"JetBrains Mono",monospace;font-weight:600;font-size:11.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+  margin:26px 0 8px;
+}
+p{margin:0 0 16px}
+ul,ol{margin:0 0 18px;padding-left:22px}
+li{margin:0 0 7px}
+li::marker{color:var(--ink-3)}
+ol{counter-reset:none}
+strong{font-weight:600;color:var(--ink)}
+a{color:var(--verdigris)}
+hr{border:0;border-top:1px solid var(--line);margin:56px 0 0}
+
+code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.855em;
+  background:var(--surface-2);border:1px solid var(--line-soft);border-radius:3px;
+  padding:1px 5px;color:var(--ink);
+}
+kbd{
+  font-family:"JetBrains Mono",monospace;font-size:.8em;font-weight:600;
+  background:var(--surface);border:1px solid var(--line);border-bottom-width:2px;
+  border-radius:4px;padding:2px 7px;color:var(--ink);
+}
+
+/* ---------- tables ---------- */
+.tbl{overflow-x:auto;margin:0 0 22px;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:440px}
+th{
+  text-align:left;font-family:"JetBrains Mono",monospace;font-weight:600;
+  font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+  padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap;
+}
+td{padding:11px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top;line-height:1.5}
+tr:last-child td{border-bottom:0}
+td:first-child{color:var(--ink)}
+.num{font-variant-numeric:tabular-nums;font-family:"JetBrains Mono",monospace;font-size:13px}
+
+/* ---------- callouts ---------- */
+.note{
+  border:1px solid var(--line);border-left:3px solid var(--ink-3);
+  background:var(--surface);border-radius:0 4px 4px 0;
+  padding:14px 18px;margin:0 0 22px;font-size:16px;
+}
+.note p:last-child{margin-bottom:0}
+.note .lbl{
+  display:block;font-family:"JetBrains Mono",monospace;font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;margin:0 0 6px;color:var(--ink-3);
+}
+.note.tip{border-left-color:var(--verdigris);background:var(--verdigris-soft)}
+.note.tip .lbl{color:var(--verdigris)}
+.note.warn{border-left-color:var(--copper);background:var(--copper-soft)}
+.note.warn .lbl{color:var(--copper)}
+.note.secret{border-left-color:var(--aura);background:var(--aura-soft)}
+.note.secret .lbl{color:var(--aura)}
+
+/* ---------- act step list ---------- */
+.steps{list-style:none;padding:0;margin:0 0 22px;counter-reset:s}
+.steps>li{
+  counter-increment:s;position:relative;padding-left:38px;margin:0 0 16px;
+}
+.steps>li::before{
+  content:counter(s,decimal-leading-zero);
+  position:absolute;left:0;top:2px;
+  font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;
+  color:var(--copper);letter-spacing:.04em;
+}
+.steps ul{margin:8px 0 0}
+
+/* ---------- principle cards ---------- */
+.cards{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;margin:0 0 22px;overflow:hidden}
+.card{background:var(--surface);padding:15px 18px}
+.card .k{
+  font-family:"Oswald",Impact,sans-serif;font-size:14px;text-transform:uppercase;
+  letter-spacing:.02em;margin:0 0 4px;color:var(--ink);
+}
+.card .v{font-size:15px;color:var(--ink-2);margin:0;line-height:1.5}
+
+.foot{
+  margin-top:72px;padding-top:24px;border-top:1px solid var(--line);
+  font-family:"JetBrains Mono",monospace;font-size:11px;line-height:1.8;color:var(--ink-3);
+}
+
+/* ---------- mobile ---------- */
+.topbar{display:none}
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .side{
+    position:fixed;inset:0 auto 0 0;width:280px;z-index:40;
+    transform:translateX(-100%);transition:transform .22s ease;
+    box-shadow:0 0 40px rgba(0,0,0,.18);
+  }
+  .side.open{transform:none}
+  .topbar{
+    display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:30;
+    background:var(--ground);border-bottom:1px solid var(--line);padding:11px 20px;
+  }
+  .topbar .t{
+    font-family:"Oswald",Impact,sans-serif;text-transform:uppercase;font-size:14px;
+    letter-spacing:.02em;
+  }
+  .burger{
+    font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;
+    background:var(--surface);border:1px solid var(--line);border-radius:3px;
+    padding:6px 10px;color:var(--ink);cursor:pointer;text-transform:uppercase;
+  }
+  .burger:focus-visible{outline:2px solid var(--verdigris);outline-offset:2px}
+  .masthead{padding:44px 22px 34px}
+  .wrap{padding:0 22px}
+  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:35;display:none}
+  .scrim.on{display:block}
+  body{font-size:16.5px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important;scroll-behavior:auto !important}
+}
+html{scroll-behavior:smooth}
+
+.side{top:54px!important;height:calc(100vh - 54px)!important}
+@media (max-width:900px){ .topbar{top:54px!important} }
+</style>
+</head>
+<body>
+<header class="gnav"><div class="gnav-in"><a class="brand" href="index.html">The Kings <span>Reclamation</span></a><nav><a href="index.html">Início</a><a href="guia.html" class="on">Guia</a><a href="itens.html">Itens</a><a href="plantas.html">Plantas</a><a href="abelhas.html">Abelhas</a><a href="rituais.html">Rituais</a><a href="alteracoes.html">Alterações</a><a href="mods.html">Mods</a><a href="livros.html">Livros</a></nav></div></header>
+
+
+<div class="topbar">
+  <button class="burger" id="burger" aria-expanded="false" aria-controls="side">Índice</button>
+  <span class="t">Manual do Reclamation</span>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<div class="shell">
+
+  <aside class="side" id="side">
+    <div class="side-head">
+      <p class="mark">Manual do<br><span>Reclamation</span></p>
+      <p class="mark-sub">v2.3.2 · MC 1.20.1 · Forge 47.4.0</p>
+    </div>
+    <div class="nav-wrap">
+      <div class="rail"><div class="rail-fill" id="railFill"></div></div>
+      <ul class="nav" id="nav">
+        <li><p class="grp">Antes de começar</p></li>
+        <li><a href="#como-ler"><span class="n">01</span>Como ler este manual</a></li>
+        <li><a href="#regras"><span class="n">02</span>As regras deste mundo</a></li>
+        <li><p class="grp">A progressão</p></li>
+        <li><a href="#ato0"><span class="n">A0</span>Acordar e não morrer</a></li>
+        <li><a href="#ato1"><span class="n">A1</span>Fazer terra</a></li>
+        <li><a href="#ato2"><span class="n">A2</span>Fazer ferro</a></li>
+        <li><a href="#ato3"><span class="n">A3</span>Genética de plantas</a></li>
+        <li><a href="#ato4"><span class="n">A4</span>Fazer grama</a></li>
+        <li><a href="#ato5"><span class="n">A5</span>Aura, Botania, Embers</a></li>
+        <li><a href="#ato6"><span class="n">A6</span>Recriar a vida animal</a></li>
+        <li><a href="#ato7"><span class="n">A7</span>Sangue, gemas e Source</a></li>
+        <li><a href="#ato8"><span class="n">A8</span>Mekanism e AE2</a></li>
+        <li><a href="#ato9"><span class="n">A9</span>Reclamar o mundo</a></li>
+        <li><p class="grp">Referência</p></li>
+        <li><a href="#paralelas"><span class="n">03</span>Linhas paralelas</a></li>
+        <li><a href="#aura"><span class="n">04</span>Gestão de Aura</a></li>
+        <li><a href="#segredos"><span class="n">05</span>Segredos do pack</a></li>
+        <li><a href="#erros"><span class="n">06</span>Erros comuns</a></li>
+        <li><a href="#mods"><span class="n">07</span>Referência por mod</a></li>
+        <li><a href="#livros"><span class="n">08</span>Os livros do pack</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <header class="masthead">
+      <p class="eyebrow">Guia de progressão · Português</p>
+      <h1>Reclaim<br>the <em>World</em></h1>
+      <p class="dek">Você acorda num deserto morto onde até terra é recurso escasso. Nenhum minério gera. Este é o caminho de volta — da primeira lasca de cobre oxidado até o portal do End.</p>
+      <div class="meta">
+        <span>167 mods</span>
+        <span>558 quests</span>
+        <span>10 capítulos</span>
+        <span>Lido da sua instância</span>
+      </div>
+    </header>
+
+    <div class="wrap">
+
+      <!-- 01 -->
+      <section id="como-ler">
+        <p class="h2-tag">01 — Antes de começar</p>
+        <h2>Como ler este manual</h2>
+        <p>O Reclamation é um pack <strong>semi-expert linear</strong>: cada etapa desbloqueia a seguinte, e pular etapa quase nunca funciona. Este manual segue a ordem real do questbook.</p>
+        <p><strong>A regra número um do pack:</strong> muitas receitas foram alteradas. Sempre confira no EMI.</p>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Tecla</th><th>O que faz</th></tr></thead>
+            <tbody>
+              <tr><td><kbd>R</kbd></td><td>com o item sob o mouse, mostra <strong>como fazer</strong></td></tr>
+              <tr><td><kbd>U</kbd></td><td>com o item sob o mouse, mostra <strong>onde é usado</strong></td></tr>
+              <tr><td><kbd>M</kbd></td><td>abre o mapa (Xaero) — usado pra <em>claim</em> e force-load de chunks</td></tr>
+              <tr><td><kbd>F3</kbd>+<kbd>H</kbd></td><td>liga/desliga tooltips avançados</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <span class="lbl">Fonte</span>
+          <p>Escrito a partir do questbook FTB da sua instância e dos scripts KubeJS que reescrevem receitas. Se algo aqui divergir do seu EMI, <strong>o EMI está certo</strong> — ele lê o jogo rodando.</p>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section id="regras">
+        <p class="h2-tag">02 — Antes de começar</p>
+        <h2>As regras deste mundo</h2>
+        <p>O pack muda o mundo de forma agressiva. Entender isso economiza horas.</p>
+
+        <h3>Geração do mundo</h3>
+        <ul>
+          <li><strong>Nenhum minério gera. Nenhum.</strong> Não existe carvão, ferro, cobre ou diamante pra minerar.</li>
+          <li>Só existem biomas de deserto morto, sem vegetação natural.</li>
+          <li>As únicas árvores são <strong>Dead Trees</strong>, de madeira ruim.</li>
+          <li>Variantes de pedra ainda geram. <strong>Areia e argila existem debaixo d'água.</strong></li>
+          <li>Ainda chove.</li>
+          <li>O chão base é o <strong>Dried Earth</strong>, bloco customizado do pack.</li>
+        </ul>
+
+        <h3>Mobs</h3>
+        <ul>
+          <li><strong>Zombie villagers e bruxas não spawnam.</strong> Não há como tirar recursos deles.</li>
+          <li>Aranhas mutaram — só spawnam as <strong>cave spiders</strong> venenosas.</li>
+          <li>Drops raros de ferro e cobre existem, mas são exceção, não plano.</li>
+          <li>Wandering traders desligados; dificuldade travada em <strong>hard</strong>.</li>
+          <li>Chicken jockeys não spawnam — o pack cancela.</li>
+        </ul>
+
+        <h3>Nether</h3>
+        <ul>
+          <li>Zero spawns naturais. Um bioma só. Sem minérios.</li>
+          <li>Dá pra fazer o portal <strong>colocando lava e água com balde</strong> — mais fácil que minerar obsidiana.</li>
+        </ul>
+
+        <div class="note tip">
+          <span class="lbl">O objetivo</span>
+          <p>Trazer terra → grama → plantas → animais → biomas de volta, e no fim abrir o End.</p>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- ATO 0 -->
+      <section id="ato0">
+        <p class="h2-tag">Ato 0 · How The World Came To Be</p>
+        <h2>Acordar e não morrer</h2>
+        <ol class="steps">
+          <li><strong>Dead Logs</strong> — quebre as árvores mortas: dão <code>Dead Log</code>, que vira <code>Flimsy Planks</code>. Cada Dead Log tem <strong>10% de chance de dropar carvão vegetal</strong> direto.</li>
+          <li><strong>Oxidized Cut Copper</strong> — nas ruínas. <strong>Raspe a ferrugem com um machado</strong> até virar <code>Cut Copper</code>.</li>
+          <li><strong>Cutting Board</strong> (Farmer's Delight) é a ferramenta central do começo.
+            <ul>
+              <li><code>Cut Copper</code> + picareta → <strong>6 lingotes garantidos</strong>, +2 a 75%, +1 a 50%. Média ≈ 8 por bloco.</li>
+              <li>Também tira mais carvão e <code>Scrap Wood</code> de dead logs.</li>
+            </ul>
+          </li>
+          <li><strong>Flimsy Door</strong> — porta de scrap wood + cobre. <strong>Ela quebra sozinha de vez em quando.</strong> É proposital.</li>
+          <li><strong>Cama</strong> — corda de aranha vira lã, lã vira cama. Ou um sleeping bag.</li>
+          <li><strong>Akashic Tome</strong> — recompensa de quest. Crafte qualquer livro-guia com ele pra fundir todos num item. Soco no ar destransforma.</li>
+          <li><strong>Claim de chunk</strong> — <kbd>M</kbd>, arraste com botão direito pra reivindicar; arraste de novo pra <strong>force-load</strong>. Isso mantém processos passivos rodando.</li>
+        </ol>
+        <div class="note warn">
+          <span class="lbl">Atenção</span>
+          <p>Desligue a proteção do claim. Ela quebra fake players — máquinas que agem como jogador. A recomendação é do próprio autor do pack.</p>
+        </div>
+        <p><strong>Peixe</strong> ainda existe e é sua comida inicial. Fatiar peixe na cutting board rende mais.</p>
+      </section>
+
+      <hr>
+
+      <!-- ATO 1 -->
+      <section id="ato1">
+        <p class="h2-tag">Ato 1 · Theurgy / Spagyrics</p>
+        <h2>Fazer terra</h2>
+        <p>Este é o gargalo de abertura. Theurgy é alquimia: todo item se decompõe em <strong>três princípios</strong>, e recombinando os três você "cria" o item.</p>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Princípio</th><th>O que representa</th><th>Máquina</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Mercury</strong></td><td>a <em>Energia</em> — genérico, intercambiável</td><td>Distiller</td></tr>
+              <tr><td><strong>Salt</strong></td><td>o <em>Corpo</em> — o "tipo" do item</td><td>Calcination Oven</td></tr>
+              <tr><td><strong>Sulfur</strong></td><td>a <em>Alma</em> — qual item exatamente é</td><td>Liquefaction Cauldron</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>As três máquinas ficam <strong>em cima de um Pyromantic Brazier</strong>, que precisa de combustível.</p>
+
+        <h3>Passo a passo</h3>
+        <ol class="steps">
+          <li><strong>Sal Ammoniac</strong> — <code>Sal Ammoniac Tank</code> com o <code>Accumulator</code> <strong>em cima</strong>. Encha de água. Faça <strong>baldes de cobre</strong> (receita do pack: cobre + caminite blend).</li>
+          <li><strong>Alchemical Mercury</strong> — Distiller sobre brazier. Destile <strong>cobblestone, dried earth ou peixe cozido</strong>. Materiais raros dão mais.</li>
+          <li><strong>Alchemical Salt (Strata)</strong> — Calcination Oven sobre brazier. Foque em Strata salt.</li>
+          <li><strong>Alchemical Sulfur (Dirt)</strong> — Liquefaction Cauldron sobre brazier, abastecido com Sal Ammoniac. Coloque <code>Dried Earth</code>: ele "lembra" que já foi terra e vira <strong>Dirt Sulfur</strong>.</li>
+          <li><strong>Incubator</strong> — sobre um brazier, com os três vasos grudados nas laterais. Encha cada um com o componente certo → sai <strong>Dirt</strong>.</li>
+        </ol>
+        <div class="note tip">
+          <span class="lbl">Marco</span>
+          <p>Você fez terra. É o momento que destrava o pack inteiro.</p>
+        </div>
+        <div class="note warn">
+          <span class="lbl">Mudança de receita</span>
+          <p>O pack removeu a duplicação <code>dirt → coarse dirt → dirt</code>. Agora é <code>2 dirt + 2 gravel → 2 coarse dirt</code>. Não tente farmar terra por aí.</p>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- ATO 2 -->
+      <section id="ato2">
+        <p class="h2-tag">Ato 2 · The Hunt For Grass</p>
+        <h2>Fazer ferro</h2>
+        <p>Com terra, você planta. As sementes vêm de tufos de grama sobreviventes: <code>wheat_seeds</code> e as mágicas do mod Enchanted — <code>water_artichoke</code>, <code>wolfsbane</code>, <code>mandrake</code>, <code>belladonna</code>, <code>snowbell</code>.</p>
+
+        <h3>A rota do ferro</h3>
+        <ol class="steps">
+          <li><strong>Mandrake Root</strong> — colha <strong>à noite</strong>. De dia ela grita e te machuca. Faça <strong>Earmuffs</strong>. Quanto maior o stat <em>Strength</em> do mandrake, menos ele acorda.</li>
+          <li><strong>Hemoglobic Fluid</strong> — mandrake é literalmente uma planta que produz sangue. Ponha o Accumulator <strong>em cima de um Fluid Vessel</strong> (Embers).</li>
+          <li><strong>Iron Alchemical Sulfur</strong> — use o hemoglobic fluid como <strong>solvente no Liquefaction Cauldron</strong> pra liquefazer cobre. O ferro do fluido converte o sulfur de cobre em ferro.</li>
+          <li><strong>Mineral Alchemical Salt</strong> — calcine <strong>carvão vegetal</strong>, ou re-calcine muito Strata salt.</li>
+          <li><strong>Incubator</strong>: Iron Sulfur + Mineral Salt + Mercury → <strong>lingote de ferro</strong>.</li>
+        </ol>
+        <div class="note warn">
+          <span class="lbl">Erro clássico</span>
+          <p>O Sal Ammoniac Tank <strong>só aceita sal ammoniac</strong>. Pro hemoglobic fluid, o bloco embaixo do accumulator tem que ser o <strong>Fluid Vessel</strong>.</p>
+        </div>
+
+        <h3>Bruxaria — abre aqui</h3>
+        <ul>
+          <li><strong>Witch's Cauldron</strong> — caldeirão de ferro + <strong>Anointing Paste</strong>. Encha com 3 baldes de água, ponha sobre fogueira pra ferver. Se a poção ficar marrom, a ordem estava errada — esvazie com balde.</li>
+          <li><strong>Mutandis</strong> — transforma <strong>dead bushes em saplings reais</strong>. É assim que árvores voltam.</li>
+          <li><strong>Witch's Oven</strong> — destila saplings em fumaças mágicas. <strong>Fume Funnels</strong> ao lado aumentam a chance.</li>
+          <li><strong>Altar (Enchanted)</strong> — 2×3 de blocos de altar, raio de <strong>16 blocos</strong>. Quanto mais <strong>variedade</strong> de planta em volta, mais poder — cada tipo tem teto próprio.</li>
+          <li><strong>Attuned Stone</strong> — permite crafts e, carregada, rituais <strong>longe do altar</strong>. A receita precisa de energia: o caldeirão tem que estar no alcance.</li>
+          <li><strong>Circle Magic</strong> — chalks <code>golden</code> (centro), <code>ritual</code>, <code>nether</code>, <code>otherwhere</code>.</li>
+        </ul>
+
+        <h4>Upgrades no topo do altar</h4>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Item</th><th>Recarga</th><th>Capacidade</th></tr></thead>
+            <tbody>
+              <tr><td>Tocha</td><td class="num">+0,5×</td><td class="num">—</td></tr>
+              <tr><td>Skeleton / Husk Head</td><td class="num">+1×</td><td class="num">+1×</td></tr>
+              <tr><td>Chalice</td><td class="num">—</td><td class="num">+1×</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Depois: candelabro no lugar da tocha, wither skull ou player skull no lugar do crânio, chalice cheio no lugar do vazio.</p>
+      </section>
+
+      <hr>
+
+      <!-- ATO 3 -->
+      <section id="ato3">
+        <p class="h2-tag">Ato 3 · AgriCraft</p>
+        <h2>Genética de plantas</h2>
+        <p>Item de entrada: <code>Wooden Crop Sticks</code>. As plantas são <strong>diploides</strong>: cada uma tem dois valores por atributo (ativo/dominante e inativo/recessivo). O ativo é o que funciona; o inativo entra no cruzamento.</p>
+
+        <h3>Os cinco stats</h3>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Stat</th><th>Efeito</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Fertility</strong></td><td>chance da planta ser escolhida como pai</td></tr>
+              <tr><td><strong>Gain</strong></td><td>quanto produz ao ser colhida</td></tr>
+              <tr><td><strong>Growth</strong></td><td>velocidade de crescimento</td></tr>
+              <tr><td><strong>Mutativity</strong></td><td>chance do cruzamento ser <em>benéfico</em></td></tr>
+              <tr><td><strong>Strength</strong></td><td>amplia as condições de solo e ambiente aceitas</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note tip">
+          <span class="lbl">Dica</span>
+          <p><strong>Strength é o stat mais subestimado.</strong> Com strength alto, cactus cresce em farmland normal e flores dispensam podzol.</p>
+        </div>
+
+        <h3>Como cruzar bem</h3>
+        <ul>
+          <li>Cruze plantas de stats altos entre si; use <strong>bonemeal nos crop sticks</strong> pra acelerar.</li>
+          <li><strong>Plante em cruz (+)</strong> com o crop stick vazio no meio: o cruzamento passa a ter <strong>4 chances</strong> de escolher pais em vez de 2. Isso muda o jogo no início.</li>
+          <li>Se a planta não cresce, <strong>agache e olhe pra ela</strong> — ela informa o solo de que precisa.</li>
+          <li><kbd>U</kbd> na semente mostra as condições; <kbd>R</kbd> mostra de que cruzamento ela sai.</li>
+          <li><strong>Magnifying Glass</strong> e <strong>Seed Analyzer</strong> mostram os stats. Espécie também pode ser recessiva.</li>
+        </ul>
+
+        <h3>Duas plantas críticas</h3>
+        <div class="cards" style="grid-template-columns:1fr">
+          <div class="card">
+            <p class="k">Cuprosia</p>
+            <p class="v">Extrai <strong>cobre da água</strong> — sua fonte renovável quando as ruínas acabarem. Só cresce em crop stick <strong>waterlogged</strong> e, com strength 1, <strong>só em gravel</strong>.</p>
+          </div>
+          <div class="card">
+            <p class="k">Podzol</p>
+            <p class="v">Cresça um 2×2 de spruce saplings: a árvore grande converte a terra (e o dried earth) embaixo em podzol. É onde as sementes de flor são plantadas.</p>
+          </div>
+        </div>
+        <p><strong>Composter</strong> transforma sementes e crops extras em bonemeal — pare de caçar esqueleto de madrugada.</p>
+      </section>
+
+      <hr>
+
+      <!-- ATO 4 -->
+      <section id="ato4">
+        <p class="h2-tag">Ato 4 · Nature's Aura</p>
+        <h2>Fazer grama</h2>
+        <p>O clímax do início do jogo. A grama vem de um <strong>ritual</strong>, não de um craft.</p>
+        <ol class="steps">
+          <li><strong>Mutandis → saplings</strong> → cresça uma árvore de verdade.</li>
+          <li><strong>Brilliant Fiber</strong> (<code>gold_fiber</code>) — feito na bruxaria. Aplique nas <strong>folhas</strong> e observe se espalhar.</li>
+          <li>Quebre as folhas douradas → <strong>Gold Leaf</strong> → moa em <strong>Gold Powder</strong>. Mais tarde há um jeito melhor de fazer brilliant fiber, usando <strong>blaze powder</strong>.</li>
+          <li><strong>Ritual of the Forest</strong>: 4× <code>Wood Stand</code> + 16× <code>Gold Powder</code> em volta de um <strong>birch sapling</strong>, com <code>Hay Block</code>, uma semente, <code>Hint of Rebirth</code> e <code>Breath of the Goddess</code>. Leva ~250 ticks.</li>
+          <li>Saída: <strong>Pasture Seeds</strong> — espalham <strong>grama</strong> na terra em volta.</li>
+        </ol>
+        <div class="note warn">
+          <span class="lbl">Bug conhecido</span>
+          <p>Regador (watering can) <strong>não</strong> inicia o Ritual of the Forest. As instruções completas estão no <strong>Book of Natural Aura</strong>.</p>
+        </div>
+        <p>Com grama: <strong>bonemeal numa área grande → flores</strong> → tinta → o resto do jogo abre.</p>
+      </section>
+
+      <hr>
+
+      <!-- ATO 5 -->
+      <section id="ato5">
+        <p class="h2-tag">Ato 5 · The Color Green</p>
+        <h2>Aura, Botania, Nether e Embers</h2>
+        <p>O capítulo mais denso do pack — quatro mods avançam juntos.</p>
+
+        <h3>Nature's Aura</h3>
+        <ul>
+          <li><strong>Bottling Sunlight</strong> — faça a <code>Bottle and Cork</code> e clique com botão direito no ar. Cada clique <strong>consome aura do chunk</strong>. É material de craft, não gerador.</li>
+          <li><strong>Natural Altar</strong> (multibloco) — 16 stone bricks, 4 chiseled, 8 gold bricks, 20 planks. Drena aura do ambiente pra transformar itens.</li>
+          <li><strong>Environmental Eye</strong> — segure pra ver o nível de aura do chunk. Item obrigatório.</li>
+          <li><strong>Infused Iron</strong> — ferramentas e armaduras com habilidades especiais, <strong>reparáveis com aura</strong>.</li>
+          <li><strong>Crushing Catalyst</strong> — mais bonemeal por osso, mais gold powder por folha, cobblestone → areia.</li>
+          <li><strong>Conversion Catalyst</strong> — <strong>areia → soul sand</strong> (essencial pro haunting do Create e pra nether wart), netherrack → nylium.</li>
+          <li><strong>Offering Table</strong> (multibloco) — coloque o item e jogue um <strong>Spirit of Calling</strong> em cima. Vários itens por spirit.</li>
+          <li><strong>Creational Catalyst</strong> — remove o limite embutido dos geradores de aura. Late game.</li>
+        </ul>
+        <div class="note warn">
+          <span class="lbl">Atenção</span>
+          <p>Os catalisadores vão <strong>em cima de um dos 4 blocos de ouro inferiores</strong> do altar. E faça suas Bottled Sunlight <strong>longe da base</strong>, num chunk intocado.</p>
+        </div>
+        <div class="note tip">
+          <span class="lbl">Efeito colateral bom</span>
+          <p>Com aura alta, <strong>dried earth vira dirt sozinho</strong>. Pra impedir isso numa área, use <strong>Powder of Dried Stasis</strong>.</p>
+        </div>
+
+        <h3>Botania</h3>
+        <ul>
+          <li><strong>Pure Daisy</strong> + Petal Apothecary: log → <strong>Livingwood</strong>, stone → <strong>Livingrock</strong>. E, receita exclusiva do pack, <code>Golden Nether Brick</code> → <strong>Nether Gold Ore</strong>. É assim que você faz ouro.</li>
+          <li><strong>Mana</strong>: Mana Spreader + Mana Pool + <strong>Endoflame</strong> + Wand of the Forest (liga spreader ↔ flor/pool).</li>
+          <li><strong>Runic Altar</strong> → runas, e mystical flower seeds.</li>
+          <li><strong>Fel Pumpkin</strong> — cabeça de blaze falsa sobre 2 barras de ferro vira pseudo-blaze que <strong>sempre dropa ≥10 blaze powder</strong>. Com reagentes mágicos, o ritual invoca um <strong>blaze real</strong> (≥3 rods).</li>
+          <li><strong>Geradores alternativos</strong>: Thermalily (lava), Entropinnyum (TNT, um dos melhores), Munchdew (folhas).</li>
+          <li><strong>Alchemy Catalyst</strong> sob a mana pool — flores↔flores, pedras↔pedras, flint↔gunpowder, ghast tear→ender pearl e <strong>flax → feather</strong>.</li>
+          <li><strong>Rod of the Lands</strong> — mana → bloco de terra.</li>
+        </ul>
+        <h4>Orechid — custo de mana no seu pack</h4>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Rocha</th><th>Ferro</th><th>Ouro</th><th>Cobre</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Deepslate</strong></td><td class="num">250</td><td class="num">125</td><td class="num">75</td></tr>
+              <tr><td>Stone</td><td class="num">29.371</td><td class="num">2.647</td><td class="num">7.000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Use deepslate. A diferença é absurda.</p>
+
+        <h3>Embers Rekindled</h3>
+        <ul>
+          <li><strong>Raw Lead</strong> — ferro infundido + nether bricks + spruce sapling. Recompensa: <strong>Ancient Codex</strong> e <strong>Tinker Hammer</strong>. Comece o Codex em <em>Natural Energy</em>.</li>
+          <li><strong>Ember Bore</strong> — <strong>sobre a bedrock</strong>, com Mechanical Core em cima e combustível dentro. Ember é praticamente infinito.</li>
+          <li><strong>Ember Activator</strong> + Emitter/Receiver/Relay → Activated Ember. Ember Grit precisa de <strong>Heat Exchanger</strong> (×0,9 na produção, mas <strong>+300 fixo</strong> por item).</li>
+          <li><strong>Melter + Stamper + Stamp Base</strong> — funde metais e estampa placas.</li>
+          <li><strong>Mixer Centrifuge</strong> — cobre e ouro fundidos em <strong>lados diferentes</strong> → <strong>Dawnstone</strong>.</li>
+          <li><strong>Bin</strong> — cole embaixo de uma máquina pra coletar a saída automaticamente.</li>
+          <li><strong>Crystal Seeds</strong> — attuned stone carregada vira semente que converte ember em metal puro. É a fonte de <strong>zinco</strong>. Mover o cristal <strong>reseta o nível</strong>.</li>
+        </ul>
+        <div class="note warn">
+          <span class="lbl">Regra do Embers</span>
+          <p><strong>Quase tudo precisa de sinal de redstone.</strong> Prepare-se pra encher de alavancas. E use o <strong>Tinker's Lens</strong> — ele mostra visualmente o que cada máquina está fazendo.</p>
+        </div>
+        <h4>Alquimia por tentativa e erro</h4>
+        <p><strong>Alchemy Tablet + Beam Cannon + pedestais</strong>: você não sabe quais <em>aspectii</em> combinam com quais itens. Falhas geram <strong>Alchemical Waste</strong> — clique com ela na mão pra ver quantos acertos teve.</p>
+        <ul>
+          <li><strong>Codebreaking Slate</strong> — processa vários wastes de uma vez e mostra também quantos aspectii certos foram postos no item errado.</li>
+          <li><strong>Mnemonic Inscriber</strong> — anexado ao tablet, com papel, <strong>anota a combinação certa</strong> quando você acerta. Faça isso cedo.</li>
+        </ul>
+        <h4>Escalada de eficiência de ember</h4>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Estágio</th><th>Ganho</th><th>Observação</th></tr></thead>
+            <tbody>
+              <tr><td>Pressure Refinery</td><td class="num">1,5× · 3×</td><td>3× se sobre bloco de metal cercado de lava/fogo</td></tr>
+              <tr><td>Wildfire Stirling</td><td class="num">½ consumo</td><td>o segundo dobra o ganho; o terceiro <strong>piora</strong></td></tr>
+              <tr><td>Ignem Reactor</td><td class="num">até 9×</td><td>entre Catalysis e Combustion Chamber, ambos com combustível</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Create — uso leve</h3>
+        <p>O pack usa pouco Create; não é obrigatório se aprofundar.</p>
+        <ul>
+          <li>Andesite Alloy aqui <strong>usa chumbo</strong>, não zinco.</li>
+          <li><strong>Encased Fan</strong> + soul sand → <em>haunting</em> → cobblestone vira <strong>blackstone</strong>, necessário pro Reformation Array. Também libera smelting em massa.</li>
+          <li>Com zinco → brass → <strong>Electron Tube</strong> → Mechanical Crafter, Factory Gauge, Packager.</li>
+          <li><strong>Blaze Burner</strong> — capture o blaze invocado; sob um basin, brassagem eficiente.</li>
+        </ul>
+
+        <h3>Theurgy avançado — o loop de metais</h3>
+        <ul>
+          <li><strong>Reformation Array</strong> — source + target + result pedestal + sulfuric flux emitter + mercury catalyst. Converte sulfur → sulfur do <strong>mesmo tier e tipo</strong>.</li>
+          <li><strong>Fermentation Vat</strong> — água + açúcar + sulfur, <strong>shift+direito pra fechar</strong> → <strong>Alchemical Niter</strong>, que converte entre <strong>tipos</strong>.</li>
+          <li><strong>Digestion Vat</strong> — converte entre <strong>raridades</strong>: 4 do tier anterior ↔ 1 do próximo.</li>
+          <li><strong>Mercury Catalyst + Caloric Flux Emitter</strong> — mercúrio vira <strong>Mercury Flux</strong>, que alimenta aparelhos alquímicos <strong>sem brazier embaixo</strong>. Um mercury shard ≈ um carvão.</li>
+        </ul>
+        <div class="note secret">
+          <span class="lbl">O loop famoso</span>
+          <p>iron sulfur → common metal niter → 4 abundant metal niter → <strong>4 copper sulfur</strong>. Ou seja: <strong>4 cobre por ferro</strong>. Totalmente automatizável — os vats aceitam redstone.</p>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- ATO 6 -->
+      <section id="ato6">
+        <p class="h2-tag">Ato 6 · The Sound of Life</p>
+        <h2>Recriar a vida animal</h2>
+        <ol class="steps">
+          <li><strong>Offering Table</strong> → os quatro amálgamas customizados do pack: <code>Feather-Flesh</code>, <code>Blooded</code>, <code>Mana-Dosed</code> e <code>Infused Amalgam</code>.</li>
+          <li>Com eles → <strong>Chicken Spawn Egg</strong>. Galinhas = ovos = a raiz de toda fauna.</li>
+          <li><strong>Altar of Birthing</strong> — em área de <strong>aura alta</strong>, acasalar mobs gera <strong>Spirits of Birthing</strong>. Jogue o spirit + reagentes no altar → novas criaturas.</li>
+        </ol>
+        <p>É também onde você invoca <strong>Siren, Whirlisprig, Drygmy, Wixie, Starbuncle</strong> e bruxa.</p>
+      </section>
+
+      <hr>
+
+      <!-- ATO 7 -->
+      <section id="ato7">
+        <p class="h2-tag">Ato 7 · Blood Magic + Ars Nouveau</p>
+        <h2>Sangue, gemas e Source</h2>
+
+        <h3>Blood Magic</h3>
+        <ol class="steps">
+          <li><strong>Soul Snares</strong> — jogue nos monstros <strong>antes de matar</strong> → dropam <strong>Demonic Will</strong>.</li>
+          <li><strong>Blood Altar</strong> + <strong>Sacrificial Dagger</strong>.</li>
+          <li><strong>Slates</strong>, em tiers: Blank → Reinforced (T2) → Imbued (T3) → Demonic (T4) → Ethereal (T5). Cada tier exige o altar naquele nível, subido com <strong>runas</strong>.</li>
+          <li><strong>Hellfire Forge</strong> + <strong>Tartaric Gem</strong> — armazena will.</li>
+          <li><strong>Blood Orb</strong> — clique com ele na mão pra vincular à sua rede de LP.</li>
+          <li><strong>Alchemy Table</strong> → <strong>Arcane Ashes</strong> → <strong>Divination Sigil</strong>.</li>
+          <li><strong>Sentient Tools</strong> — cortam almas sozinhas e ficam mais fortes conforme o will no inventário.</li>
+          <li><strong>Alchemical Reaction Chamber</strong> (T3) → <strong>diamante, lápis, ametista</strong>. É o desbloqueio de gemas do pack.</li>
+        </ol>
+        <div class="note tip">
+          <span class="lbl">Regra do will</span>
+          <p>Quanto <strong>mais will você carrega, mais will os monstros dropam</strong>. Ande sempre com uma tartaric gem cheia.</p>
+        </div>
+        <ul>
+          <li><strong>Incense Altar</strong> — multibloco livre de tranquilidade; no máximo dá até <strong>4× life essence</strong> por auto-sacrifício.</li>
+          <li><strong>Tainted Blood Pendant</strong> com Regeneração torna o auto-sacrifício tolerável.</li>
+          <li><strong>Budding Amethyst</strong> — ritual wiccano converte um bloco de ametista na versão budding. O <strong>pentagrama de arcane ashes</strong> no altar dá <strong>+1,5× capacidade</strong>.</li>
+          <li><strong>Demon Realm</strong>: <em>Edge of the Hidden Realm</em> → <strong>Tau Fruit</strong> → <strong>Blood Shards</strong> → altar T4. Depois, <em>Ritual Diviner Dusk</em> → <em>Pathway to the Endless Realm</em> → labirinto com loot e <strong>Demonite</strong>.</li>
+          <li><strong>Crystallized Will</strong> — Demon Crucible + Demon Crystallizer. Cada cristal além do primeiro custa 40 will e <strong>queima em 50</strong>. A <em>Resonance of the Faceted Crystal</em> divide 1 cristal em 4 aspectados.</li>
+          <li><strong>Automação de LP</strong> — <em>Ritual of the Feathered Knife</em> ou <em>Well of Suffering</em> + <strong>Ritual Tinkerer</strong>. Com mobs regenerando, vira infinito.</li>
+        </ul>
+
+        <h3>Ars Nouveau — Source</h3>
+        <ul>
+          <li><strong>Archwood</strong> — infunda um sapling ressonante com <strong>Life Essence</strong>. Converte entre os 5 tipos numa mana pool.</li>
+          <li><strong>Imbuement Chamber</strong> → <strong>Source Gem</strong> (de ametista ou lápis).</li>
+          <li><strong>Sourcelinks</strong> + <strong>Source Jar</strong> pra gerar e armazenar Source líquido.</li>
+          <li><strong>Arcane Core + Enchanting Apparatus</strong> — encantamentos e crafts especiais.</li>
+          <li><strong>Storage Lectern</strong> + <strong>Bookwyrm Charm</strong> — armazenamento navegável, ligado por <strong>Dominion Wand</strong>.</li>
+          <li><strong>Amethyst Golem</strong> — anime budding amethyst com o <em>Ritual of Awakening</em>: ele colhe, cresce e propaga ametista.</li>
+          <li><strong>Wilden Chimera</strong> (boss) dropa o item que destrava <strong>magias tier 3</strong>.</li>
+          <li><strong>Magebloom</strong> → fibra → <strong>Warp Scrolls</strong> → portais permanentes com moldura de Sourcestone.</li>
+        </ul>
+        <div class="note warn">
+          <span class="lbl">Pegadinha</span>
+          <p><strong>Crops de AgriCraft não funcionam com o Agronomic Sourcelink.</strong> Pra alimentar ele, plante do jeito normal.</p>
+        </div>
+        <h4>Familiares — todos invocados no Altar of Birthing</h4>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Criatura</th><th>Token</th><th>O que faz</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Starbuncle</strong></td><td>gold nuggets</td><td>move itens — logística sem tubos</td></tr>
+              <tr><td><strong>Drygmy</strong></td><td>wilden horn</td><td>gera drops e XP de mobs <strong>sem matar</strong></td></tr>
+              <tr><td><strong>Whirlisprig</strong></td><td>cresça árvore perto</td><td>produz recursos naturais</td></tr>
+              <tr><td><strong>Wixie</strong></td><td>dispel numa bruxa</td><td>crafta e faz poções</td></tr>
+              <tr><td><strong>Siren</strong></td><td>sea pickle</td><td><strong>pesca automática</strong> por Source</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Botania late</h3>
+        <ul>
+          <li><strong>Terra Plate</strong> → <strong>Terrasteel</strong>. Use <strong>Sparks</strong> no lugar de spreaders — muito mais rápido.</li>
+          <li><strong>Sin Runes</strong>, o terceiro tier de runas.</li>
+          <li><strong>Alfheim Portal</strong> (2 Natura Pylons) — não transporta seres vivos, mas permite comércio. Jogue o <strong>Lexica Botania inteiro</strong> dentro pra conteúdo extra — mas <strong>não jogue seu Akashic Tome</strong>.</li>
+          <li><strong>Conjuration Catalyst</strong> duplica itens — adeus destilar redstone e glowstone.</li>
+          <li><strong>Gaia Pylons</strong> → <strong>Guardian of Gaia</strong> → <strong>Gaia Spirits</strong>.</li>
+        </ul>
+      </section>
+
+      <hr>
+
+      <!-- ATO 8 -->
+      <section id="ato8">
+        <p class="h2-tag">Ato 8 · Tecnologia</p>
+        <h2>Mekanism e AE2</h2>
+
+        <h3>A ordem correta</h3>
+        <ol class="steps">
+          <li><strong>Osmium</strong> — oferte um <strong>Imbued Slate</strong>, convertendo ferro.</li>
+          <li><strong>Energia</strong>: <strong>Mana Fluxfield</strong> — aponte um mana spreader nele e sai RF. O heat generator existe, mas é péssimo.</li>
+          <li><strong>Metallurgic Infuser</strong> → <strong>Steel</strong> (ferro + carvão).</li>
+          <li><strong>Steel Casing</strong> → tudo o mais.</li>
+          <li><strong>Enrichment Chamber</strong> → reagentes <strong>8× mais eficientes</strong> pro Infuser.</li>
+          <li><strong>Crusher</strong> → <strong>Bio Fuel</strong> → Bio-Generator, ou refine em Ethylene.</li>
+          <li><strong>Rotary Condensentrator</strong> → <strong>Aerated Essence</strong> → <strong>Gas-Burning Generator</strong>. É a energia que carrega o mid-game. <strong>Blooded Ethylene</strong> queima ainda melhor.</li>
+        </ol>
+        <div class="note warn">
+          <span class="lbl">Nerf do pack</span>
+          <p>A queima de <strong>ethylene foi nerfada</strong> de propósito. Continua útil, só não é quebrada.</p>
+        </div>
+
+        <h4>Processamento de minério, em escada</h4>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Multiplicador</th><th>Máquinas</th><th>Rendimento</th></tr></thead>
+            <tbody>
+              <tr><td class="num">2×</td><td>Purification Chamber (+O₂) → clumps → dirty dust → enrich → smelt</td><td>2 ingots por raw</td></tr>
+              <tr><td class="num">~2,6×</td><td>Chemical Dissolution + Thermal Evaporation (brine→cloro→HCl)</td><td>3 raw → 8 shards</td></tr>
+              <tr><td class="num">~3,3×</td><td>Chemical Washer + Crystallizer + Injection Chamber (ácido sulfúrico)</td><td>3 raw → 10 ingots</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul>
+          <li><strong>Upgrades</strong>: <em>upgrade cards</em> (velocidade, eficiência) e <em>tier installers</em> (de 1 pra até 9 slots).</li>
+          <li><strong>Fission Reactor</strong> → vapor → Industrial Turbine. Resíduo vira <strong>Plutônio</strong> e <strong>Polônio</strong> → Supercritical Phase Shifter → <strong>Antimatéria</strong>.</li>
+          <li><strong>QIO System</strong> — armazenamento digital sem energia, alcance cross-dimensional ilimitado, mas <strong>não faz autocraft</strong>.</li>
+          <li><strong>Fusion Reactor</strong> — milhões de RF/t com deutério, trítio ou D-T.</li>
+        </ul>
+        <div class="note warn">
+          <span class="lbl">Perigo real</span>
+          <p>Se você errar a operação do Fission Reactor, <strong>ele derrete e explode ou irradia a área</strong>. Faça pequeno, ou longe da base. <strong>Radioactive Waste Barrels</strong> são praticamente a única coisa que segura o rejeito.</p>
+        </div>
+
+        <h3>Applied Energistics 2</h3>
+        <ol class="steps">
+          <li><strong>Certus Quartz</strong> — Charger + <strong>diamante enriquecido</strong>.</li>
+          <li><strong>Budding Quartz</strong> — jogue um bloco de certus na água com charged certus. Diferente da ametista, ele <strong>degrada</strong> e precisa ser re-semeado.</li>
+          <li><strong>Fluix Crystal</strong> — redstone + nether quartz + charged certus.</li>
+          <li><strong>Mysterious Cube</strong> — um <strong>ritual</strong> atrai um meteoro reduzido com as presses. Está no Reclamation Rituals book.</li>
+          <li><strong>Inscriber</strong> → circuitos → <strong>ME Controller</strong>.</li>
+        </ol>
+        <h4>Rede</h4>
+        <ul>
+          <li>Cada face do controller dá <strong>32 canais</strong>; quase todo aparelho consome 1.</li>
+          <li><strong>Energy Acceptor</strong> não usa canal — use ele pra energia e deixe as faces livres.</li>
+          <li><strong>Smart Cable</strong> mostra os canais; <strong>Dense Cable</strong> carrega 32 em vez de 8.</li>
+          <li><strong>P2P Tunnels</strong> multiplicam canais e transportam energia, químicos, mana botânico e Source.</li>
+          <li><strong>Autocraft</strong>: Pattern Provider + Molecular Assembler → depois <strong>Assembler Matrix</strong> (mais de 4.000 patterns com <strong>1 canal só</strong>) → <strong>Quantum Computer</strong>.</li>
+          <li><strong>Extended/Advanced AE</strong>: Ex Inscriber e Ex Charger (4 receitas em paralelo), Circuit Slicer (bloco → 9 circuitos), Reaction Chamber.</li>
+        </ul>
+      </section>
+
+      <hr>
+
+      <!-- ATO 9 -->
+      <section id="ato9">
+        <p class="h2-tag">Ato 9 · The Touch Of… / The Taste of Power</p>
+        <h2>Reclamar o mundo</h2>
+        <ol class="steps">
+          <li><strong>Ritual of Reclamation</strong> — exige aspected will crystals + gaia fragments + ethereal slates. Está no Reclamation Rituals book.</li>
+          <li>Isso cria um <strong>Reclaimed Biome</strong> — céu azul, e <strong>spawns naturais voltam</strong>, inclusive drygmy, whirlisprig e starbuncle raramente.</li>
+          <li><strong>Biome Essence</strong> — segure botão direito com a <code>Empty Biome Bottle</code> num bioma vivo. <strong>Agachado, enche a stack inteira.</strong></li>
+          <li><strong>Attuned Biome Bottle</strong> = attuned stone carregada + biome bottle + hellforged ingot + 2 gaia spirits.</li>
+          <li>Colete as <strong>seis essências atuadas</strong>, cada uma com seu ritual.</li>
+          <li>Com as seis → ritual caro → <strong>End Portal</strong>. Ainda precisa dos Eyes of Ender.</li>
+          <li><strong>Visite o End, mate o Ender Dragon.</strong> Pack concluído.</li>
+        </ol>
+        <div class="note warn">
+          <span class="lbl">Atenção</span>
+          <p>O Ritual of Reclamation <strong>pode apagar blocos</strong>. Execute longe de qualquer coisa que você preze.</p>
+        </div>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Essência</th><th>Bioma alvo</th><th>Reagente-chave</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Hellish</strong></td><td>nether vivo</td><td>— (a primeira, mais simples)</td></tr>
+              <tr><td><strong>Arid</strong></td><td>deserto</td><td>artifício anão (Embers) de alta potência</td></tr>
+              <tr><td><strong>Mycelic</strong></td><td>mushroom fields</td><td>prática wiccana clássica</td></tr>
+              <tr><td><strong>Watery</strong></td><td>warm ocean</td><td>magia elemental + plutônio</td></tr>
+              <tr><td><strong>Lush</strong></td><td>bamboo forest</td><td>maestria botânica + plutônio</td></tr>
+              <tr><td><strong>Icy</strong></td><td>snowy slopes</td><td>polônio + sorvete de baunilha + shattered singularities + muita biome essence</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Frame Remover</strong> permite quebrar frames e blocos de portal com botão direito. Depois do dragão vêm os <strong>Biome Globes</strong> (16 usos, raio de 12 blocos — convertem blocos mas <strong>não</strong> colocam grama e árvores, e drenam muita aura) e o capítulo de itens creative.</p>
+      </section>
+
+      <hr>
+
+      <!-- PARALELAS -->
+      <section id="paralelas">
+        <p class="h2-tag q">03 — Referência</p>
+        <h2>Linhas paralelas</h2>
+
+        <h3>Complicated Bees</h3>
+        <p>Desbloqueia cedo e é <strong>a rota mais confortável pra recursos</strong> do pack. Apiary + Scoop pra colher os ninhos.</p>
+        <div class="note tip">
+          <span class="lbl">A regra que trava todo mundo</span>
+          <p><strong>Especialidades só saem quando a abelha está "ecstatic"</strong> — o clima da casa precisa bater <strong>exatamente</strong> com o preferido dela. Ou você cria essa tolerância, ou usa <strong>frames</strong> pra ajustar temperatura e umidade.</p>
+        </div>
+        <ul>
+          <li><strong>Cadeia:</strong> Wasteland → Desiccated/Dried → Rocky/Robust/Resilient (precisam de <strong>tuff embaixo do apiary</strong>) → Common/Cultivated → Diligent (produtividade) ou Noble (fertilidade, royal jelly) → nether: Crimson/Warped/Cursed → Haunted/Ghostly/Spectral (glowstone).</li>
+          <li>Abelhas Wasteland, Desiccated e Dried usam <strong>dead bushes</strong> como flores.</li>
+          <li><strong>Metais:</strong> Cuprous, Ferrous, Plumbum, Argentum, Precious, Stannum, Zincum, Osimum, Radioactive. <strong>Minerais:</strong> Bituminous, Conductive, Luminous, Lapic, Amethyst, Dimantic, Emeradic, Quartz, Silicate, Fluorite.</li>
+          <li><strong>Mágicas:</strong> Natural (produz <strong>Nature Essence</strong>, necessária pras nature seeds), Botanic, Dawnstone, Willful, Source, Demonite, Terra.</li>
+          <li><strong>Ferramentas:</strong> Analyzer (1 honey drop, mostra genes), Apid Library (mutações possíveis), Microscope (pesquisa espécie → mais chance de mutação; ótimo destino pros drones sobrando).</li>
+          <li><strong>Escala:</strong> Centrifuge → <strong>Gyrofuge</strong>; Apiary → <strong>Mellarium</strong> (muito mais slots de frame = <em>stacks</em> de comb por tick).</li>
+          <li><strong>Upgrades</strong> de propolis — até 3 por máquina, <strong>stacking multiplicativo</strong>, igual aos frames.</li>
+          <li><strong>Apiarist Gear</strong> completo imuniza contra efeitos de abelha.</li>
+          <li>Não existe como tirar duas rainhas de um par. Pra mais ninhos, há um <strong>ritual</strong>.</li>
+        </ul>
+
+        <h3>Mystical Agriculture</h3>
+        <ul>
+          <li><strong>Prosperity Shard</strong> — no seu pack: <strong>copper nugget + picareta na cutting board (15%)</strong>, ou <strong>Enrichment Chamber</strong> 1:1 quando tiver Mekanism.</li>
+          <li><strong>Essence Farmland</strong> (obrigatório) + <strong>Infusion Altar</strong> com 8 pedestais.</li>
+          <li><strong>Escada:</strong> Inferium (de matar mobs) → Prudentium (inferium + os 4 elementais <strong>num Cauldron</strong>) → Tertium (Runic Altar ou Terra Plate) → Imperium (Source + tertium, Imbuement Chamber) → Supremium (imperium ungido com life essence). <strong>Todos também saem no Metallurgic Infuser.</strong></li>
+          <li><strong>Essence seeds não são clonáveis</strong> — você precisa de 2+ pra começar a melhorar stats.</li>
+          <li><strong>Growth Accelerators</strong>: tiers maiores têm alcance maior, então você empilha mais deles embaixo da farmland.</li>
+          <li>Watering Cans até o <strong>Awakened Supremium</strong> (água infinita). <strong>Harvester</strong> colhe 3×3, ampliável.</li>
+        </ul>
+
+        <h3>Mob Safari — fotografia</h3>
+        <p>Linha secundária inteira no mod <strong>Exposure</strong>: Camera + Black and White Film + Lightroom. São ~75 fotos, com recompensas em pilhas grandes de recurso. Completar tudo dá <code>Infinity Egg</code>, 32 creative blaze cakes e 16 pellets de antimatéria.</p>
+        <p>Dicas espalhadas nas quests: existe <strong>ritual que concede Bad Omen</strong>; o <strong>sculk catalyst é craftável</strong> e o <strong>Sculk Awakener</strong> converte um shrieker em um que invoca Warden; o <strong>sniffer egg é craftável</strong>; wither skeleton vivo requer <strong>Soulium Spawner</strong>; há <strong>ritual que invoca o Elder Guardian</strong>.</p>
+
+        <h3>Comida e cozinha</h3>
+        <ul>
+          <li><strong>Cooking for Blockheads</strong> — o <strong>Cooking Table</strong> crafta qualquer comida com o que estiver nos gabinetes. Módulos: Fridge (+ Ice Unit), Oven (+ Heating Unit pra rodar em energia), Sink (água infinita), Tool Rack, Cow in a Jar, Counter/Cabinet.</li>
+          <li><strong>ME Kitchen Station</strong> conecta a cozinha ao sistema ME.</li>
+          <li><strong>Organic Compost</strong> → <strong>Rich Soil</strong>, mais rápido que farmland normal.</li>
+          <li><strong>Colheita automática:</strong> Horn/Drum of the Wild (+ hopperhock = 100% automático), Harvester, Mechanical Harvester.</li>
+        </ul>
+
+        <h3>Qualidade de vida</h3>
+        <ul>
+          <li><strong>Via Romana</strong> — viagem rápida por placas. Shift+clique esquerdo na inicial, depois na final, e <strong>percorra o caminho a pé</strong> por blocos de caminho. Se desviar, o trajeto é cancelado. Depois de vinculado, <strong>soque a placa pra viajar</strong>. Veja os blocos válidos buscando <code>#via_romana:path_block</code> no EMI.</li>
+          <li><strong>Ferramentas AOE</strong> — Hammer e Excavator (3×3), <strong>Broadaxe (3×3×3)</strong>.</li>
+          <li>Sophisticated Backpacks/Storage, Storage Drawers (+ Controller e Drawer Keys), Building Gadgets 2 (precisam de carga), Construction Wand, Rod of the Shifting Crust.</li>
+          <li>Chipped, Rechiseled e Copycats pra variantes decorativas quase infinitas.</li>
+        </ul>
+      </section>
+
+      <hr>
+
+      <!-- AURA -->
+      <section id="aura">
+        <p class="h2-tag q">04 — Referência</p>
+        <h2>Gestão de Aura</h2>
+        <p>A aura do Nature's Aura é <strong>por chunk</strong> e <strong>não se regenera sozinha</strong>. Se o Natural Altar parou de funcionar, é isso.</p>
+        <p><strong>Diagnóstico:</strong> segure o <strong>Environmental Eye</strong>. Ande 16 blocos e a leitura muda — às vezes basta mover o altar pro chunk vizinho enquanto o antigo se recupera.</p>
+        <div class="cards" style="grid-template-columns:1fr 1fr">
+          <div class="card">
+            <p class="k">Drena</p>
+            <p class="v">Natural Altar (todo craft) · <strong>Bottled Sunlight</strong> (cada clique) · Biome Globes (muito) · Conversion Catalyst</p>
+          </div>
+          <div class="card">
+            <p class="k">Repõe</p>
+            <p class="v">Ancient Sapling · Flower Generator · crescimento de plantações e criação de animais · Creational Catalyst (late)</p>
+          </div>
+        </div>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Gerador</th><th>Como funciona</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Ancient Sapling</strong></td><td>a árvore crescida murcha as folhas quando a aura está baixa, gerando aura</td></tr>
+              <tr><td><strong>Flower Generator</strong></td><td>consome flores → aura. <strong>Varie as espécies</strong> ou o retorno cai</td></tr>
+              <tr><td>Plantações e animais</td><td>realimentam passivamente</td></tr>
+              <tr><td><strong>Creational Catalyst</strong></td><td>remove o teto dos geradores. Late game</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note tip">
+          <span class="lbl">Regra prática</span>
+          <p>Altar sustentável = altar <strong>+ 2 ou 3 geradores no mesmo chunk</strong>. O altar nunca leva a aura a negativo — ele simplesmente <strong>para de funcionar</strong>.</p>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- SEGREDOS -->
+      <section id="segredos">
+        <p class="h2-tag q">05 — Referência</p>
+        <h2>Segredos do pack</h2>
+        <p>Coisas que estão nos scripts KubeJS e <strong>não aparecem no questbook</strong>.</p>
+        <div class="note secret">
+          <span class="lbl">Bateia de cobre</span>
+          <p>Segure uma <strong>tigela (Bowl)</strong> e clique com botão direito em <strong>gravel</strong>. Aparece "Sifting for copper..." e há <strong>25% de chance</strong> de sair um copper nugget. Repetível, sem custo. É a melhor fonte de cobre do early game.</p>
+        </div>
+        <ul>
+          <li><strong>Dead Log dropa carvão vegetal em 10%</strong> das vezes.</li>
+          <li><strong>Cut Copper rende ~8 lingotes por bloco</strong> na cutting board, não 4.</li>
+          <li><strong>Prosperity Shard sai de copper nugget</strong> na cutting board (15%) — muito antes do que a maioria percebe.</li>
+          <li><strong>Grama não dropa mais alho</strong> — <code>enchanted:garlic</code> foi removido do loot.</li>
+          <li><strong>Wandering traders desligados</strong> e dificuldade travada em <strong>hard</strong>.</li>
+          <li><strong>Chicken jockeys não spawnam</strong> — o pack cancela.</li>
+          <li>As placas de metal foram <strong>removidas das tags</strong> <code>forge:plates/*</code> — receitas de placa passam pelo <strong>Stamper do Embers</strong>.</li>
+          <li>O <strong>Cold Frame</strong> das abelhas foi ajustado para 30 usos.</li>
+          <li><strong>Alder, Hawthorn e Rowan</strong> têm receitas próprias no pack.</li>
+          <li>As lâmpadas do Macaw's usam <strong>beeswax</strong> no lugar de honeycomb vanilla.</li>
+          <li><strong>Ethylene foi nerfado</strong> de propósito.</li>
+        </ul>
+      </section>
+
+      <hr>
+
+      <!-- ERROS -->
+      <section id="erros">
+        <p class="h2-tag q">06 — Referência</p>
+        <h2>Erros comuns</h2>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Sintoma</th><th>Causa real</th></tr></thead>
+            <tbody>
+              <tr><td>"O Natural Altar parou"</td><td>aura do chunk zerada — veja <a href="#aura">Gestão de Aura</a></td></tr>
+              <tr><td>"Bottled Sunlight não repõe aura"</td><td>ele <strong>consome</strong>; faça longe da base</td></tr>
+              <tr><td>"Hemoglobic fluid não sai"</td><td>o accumulator está sobre o Sal Ammoniac Tank; tem que ser o <strong>Fluid Vessel</strong></td></tr>
+              <tr><td>"Ritual of the Forest não inicia"</td><td>regador não funciona — bug do mod</td></tr>
+              <tr><td>"A Cuprosia não cresce"</td><td>crop stick precisa estar <strong>waterlogged</strong>; com strength 1, só em gravel</td></tr>
+              <tr><td>"Minha planta não cresce"</td><td>agache e olhe pra ela: informa o solo necessário</td></tr>
+              <tr><td>"A máquina do Embers não faz nada"</td><td>falta <strong>sinal de redstone</strong></td></tr>
+              <tr><td>"Fake player não funciona no meu claim"</td><td>desligue a proteção do claim (OPAC)</td></tr>
+              <tr><td>"Pressure plate não ativa"</td><td>keybind OPAC (<kbd>'</kbd>) → desligue <em>Prot. Plates from Other</em></td></tr>
+              <tr><td>"Cow in a Jar não pega a vaca"</td><td>OPAC bloqueia; faça fora do claim</td></tr>
+              <tr><td>"Receita do EMI parece errada" (destilaria)</td><td>ponha os ingredientes nos <strong>dois slots que não são de jarro</strong></td></tr>
+              <tr><td>"Agronomic Sourcelink não gera nada"</td><td>ele ignora crops de AgriCraft</td></tr>
+              <tr><td>"Meu budding certus quartz sumiu"</td><td>certus <strong>degrada</strong> — precisa ser re-semeado</td></tr>
+              <tr><td>"Meu crystal seed voltou ao nível 1"</td><td>você moveu o cristal</td></tr>
+              <tr><td>"Meu Ignem Reactor não roda"</td><td>Catalysis e Combustion Chambers precisam de <strong>combustível próprio</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- MODS -->
+      <section id="mods">
+        <p class="h2-tag q">07 — Referência</p>
+        <h2>Referência por mod</h2>
+        <h3>Progressão obrigatória</h3>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Mod</th><th>Papel no pack</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Theurgy</strong></td><td>alquimia base — cria terra e ferro do nada; loop de metais no late</td></tr>
+              <tr><td><strong>Enchanted</strong></td><td>bruxaria — mutandis, altar de plantas, rituais, brilliant fiber</td></tr>
+              <tr><td><strong>AgriCraft</strong></td><td>genética de plantas — 5 stats, cruzamento, Cuprosia</td></tr>
+              <tr><td><strong>Nature's Aura</strong></td><td>aura por chunk, Natural Altar, ritual da grama, Altar of Birthing</td></tr>
+              <tr><td><strong>Botania</strong></td><td>mana, Pure Daisy (ouro), Fel Pumpkin (blaze), Terrasteel, Alfheim</td></tr>
+              <tr><td><strong>Embers Rekindled</strong></td><td>ember infinito da bedrock, fundição, Dawnstone, alquimia por tentativa</td></tr>
+              <tr><td><strong>Blood Magic</strong></td><td>gemas, Demon Realm, will</td></tr>
+              <tr><td><strong>Ars Nouveau</strong></td><td>Source, encantamentos, familiares, rituais, storage lectern</td></tr>
+              <tr><td><strong>Mekanism</strong></td><td>aço, energia, processamento até 3,3×, reatores, antimatéria</td></tr>
+              <tr><td><strong>Applied Energistics 2</strong></td><td>armazenamento e autocraft digital</td></tr>
+              <tr><td><strong>Reclamation Util</strong></td><td>biome bottles, globes, frame remover — o endgame do pack</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Geração de recursos — opcional, muito recomendado</h4>
+        <p>Complicated Bees · Mystical Agriculture · Create</p>
+        <h4>Comida</h4>
+        <p>Croptopia · Farmer's Delight · Nether's Delight · Cooking for Blockheads</p>
+        <h4>Utilitário e QoL</h4>
+        <p>Sophisticated Backpacks/Storage · Storage Drawers · Building Gadgets 2 · Construction Wand · Via Romana · Akashic Tome · Jade · EMI · FTB Quests · Xaero's Maps · Open Parties and Claims · Quark · Supplementaries · Comforts · Gravestone · Clumps</p>
+        <h4>Decoração</h4>
+        <p>Chipped · Rechiseled · Copycats · Macaw's (10 mods) · Create Deco · Simply Light · Antiblocks · Immersive Paintings</p>
+        <h4>Performance</h4>
+        <p>Embeddium · Oculus · FerriteCore · ModernFix · ImmediatelyFast · Entity Culling · Krypton · Cupboard · GPU Memleak Fix</p>
+      </section>
+
+      <hr>
+
+      <!-- LIVROS -->
+      <section id="livros">
+        <p class="h2-tag q">08 — Referência</p>
+        <h2>Os livros do pack</h2>
+        <p>Junte todos no <strong>Akashic Tome</strong> logo no começo.</p>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Livro</th><th>Cobre</th></tr></thead>
+            <tbody>
+              <tr><td><strong>FTB Quests</strong> (<kbd>M</kbd>)</td><td>a espinha dorsal — 558 quests em 10 capítulos</td></tr>
+              <tr><td><strong>The Hermetica</strong></td><td>Theurgy / Spagyrics</td></tr>
+              <tr><td><strong>Book of Natural Aura</strong></td><td>Nature's Aura — inclui os multiblocos e o Ritual of the Forest</td></tr>
+              <tr><td><strong>Lexica Botania</strong></td><td>Botania — jogue no portal de Alfheim depois</td></tr>
+              <tr><td><strong>Ancient Codex</strong></td><td>Embers — comece em <em>Natural Energy</em></td></tr>
+              <tr><td><strong>Sanguine Scientiem</strong></td><td>Blood Magic — runas, rituais, Incense Altar</td></tr>
+              <tr><td><strong>Worn Notebook</strong></td><td>Ars Nouveau — familiares, glifos, rituais</td></tr>
+              <tr><td><strong>Apiarist Field Guide</strong></td><td>Complicated Bees — Mellarium, Gyrofuge, genética</td></tr>
+              <tr><td><strong>Reclamation Rituals</strong></td><td>exclusivo do pack — ninhos de abelha, blaze real, budding amethyst, meteoro AE2, terraformação e Ritual of Reclamation. Faça: <code>livro + dried earth</code></td></tr>
+              <tr><td><strong>AE2 Guide</strong></td><td>redes, canais, autocraft</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="foot">
+          Gerado a partir da instância local — Reclamation 2.3.2 · Minecraft 1.20.1 · Forge 47.4.0.<br>
+          Fontes: questbook FTB (10 capítulos, 558 quests) e scripts KubeJS do pack.<br>
+          Se o pack for atualizado, receitas podem mudar: o EMI in-game é sempre a fonte definitiva.
+        </p>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+  var secs  = links.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
+  var fill  = document.getElementById('railFill');
+  var rail  = document.querySelector('.rail');
+
+  function setActive(idx){
+    links.forEach(function(a,i){ a.classList.toggle('on', i===idx); });
+    if(rail && fill){
+      var pct = (idx+1)/links.length;
+      fill.style.height = Math.max(0, Math.min(1,pct)) * rail.offsetHeight + 'px';
+    }
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var i = secs.indexOf(e.target);
+        if(i > -1) setActive(i);
+      }
+    });
+  }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+
+  secs.forEach(function(s){ if(s) io.observe(s); });
+  setActive(0);
+
+  var side   = document.getElementById('side');
+  var burger = document.getElementById('burger');
+  var scrim  = document.getElementById('scrim');
+  function close(){ side.classList.remove('open'); scrim.classList.remove('on'); burger.setAttribute('aria-expanded','false'); }
+  if(burger){
+    burger.addEventListener('click', function(){
+      var open = side.classList.toggle('open');
+      scrim.classList.toggle('on', open);
+      burger.setAttribute('aria-expanded', String(open));
+    });
+    scrim.addEventListener('click', close);
+    links.forEach(function(a){ a.addEventListener('click', close); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+  }
+})();
+</script>
+
+</body>
+</html>
