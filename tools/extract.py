@@ -199,6 +199,17 @@ def extract_tags():
 
     for k in list(raw):
         resolve(k)
+
+    # os jars trazem tags citando itens de mods ausentes (ilikewood, byg...):
+    # sem podar, um chip "qualquer X" mostraria contagem e icone irreais
+    try:
+        known = set(json.load(io.open(os.path.join(OUT, "names.json"),
+                                      encoding="utf-8")))
+        for k, v in resolved.items():
+            resolved[k] = [x for x in v if x in known]
+    except Exception:
+        pass
+
     # chave publica sem o prefixo de tipo, item tem prioridade
     flat = {}
     for k, v in resolved.items():
@@ -230,6 +241,64 @@ SPECIAL_OUT = (
 )
 
 
+# ---- condicoes: o pack so tem 169 mods, mas os jars trazem receitas de
+# compatibilidade para mods ausentes (ilikewood, byg, biomesoplenty...).
+# Sem avaliar as condicoes, a wiki mostraria milhares de receitas fantasma.
+
+_MODIDS = None
+
+
+def installed_modids():
+    global _MODIDS
+    if _MODIDS is not None:
+        return _MODIDS
+    ids = {"minecraft", "forge", "kubejs", "c"}
+    for jp in JARS:
+        try:
+            with zipfile.ZipFile(jp) as z:
+                if "META-INF/mods.toml" in z.namelist():
+                    toml = z.read("META-INF/mods.toml").decode("utf-8", "replace")
+                    ids.update(re.findall(r'modId\s*=\s*"([^"]+)"', toml))
+        except Exception:
+            pass
+    _MODIDS = ids
+    return ids
+
+
+def eval_condition(c, known_items=None):
+    """True = a receita vale neste pack. Desconhecido -> True (nao remove)."""
+    if not isinstance(c, dict):
+        return True
+    t = c.get("type", "")
+    if t.endswith("mod_loaded"):
+        return c.get("modid") in installed_modids()
+    if t.endswith(":not"):
+        return not eval_condition(c.get("value"), known_items)
+    if t.endswith(":and"):
+        return all(eval_condition(x, known_items) for x in c.get("values", []))
+    if t.endswith(":or"):
+        return any(eval_condition(x, known_items) for x in c.get("values", []))
+    if t.endswith("item_exists"):
+        if known_items is None:
+            return True
+        vals = c.get("values") or ([c["item"]] if isinstance(c.get("item"), str) else [])
+        return all(v in known_items for v in vals)
+    if t.endswith("false"):
+        return False
+    if t.endswith("true"):
+        return True
+    return True
+
+
+def conditions_pass(d, known_items=None):
+    for key in ("conditions", "bookshelf:load_conditions"):
+        conds = d.get(key)
+        if isinstance(conds, list) and not all(
+                eval_condition(c, known_items) for c in conds):
+            return False
+    return True
+
+
 def refs_in(node, out):
     """Coleta recursivamente qualquer {'item':..} / {'tag':..} / string de id."""
     if isinstance(node, dict):
@@ -255,8 +324,13 @@ def refs_in(node, out):
             out.append(("item", node, 1))
 
 
+KNOWN_ITEMS = None
+
+
 def norm_recipe(rid, d, source):
     if not isinstance(d, dict):
+        return []
+    if not conditions_pass(d, KNOWN_ITEMS):
         return []
     rtype = d.get("type")
 
@@ -265,8 +339,13 @@ def norm_recipe(rid, d, source):
         out = []
         for i, sub in enumerate(d.get("recipes", [])):
             inner = sub.get("recipe")
-            if inner:
-                out.extend(norm_recipe(f"{rid}#{i}", inner, source))
+            if not inner:
+                continue
+            conds = sub.get("conditions")
+            if isinstance(conds, list) and not all(
+                    eval_condition(c, KNOWN_ITEMS) for c in conds):
+                continue
+            out.extend(norm_recipe(f"{rid}#{i}", inner, source))
         return out
     if not rtype:
         return []
@@ -522,50 +601,31 @@ def apply_removals(recipes, removals):
 # ---------------------------------------------------------------- icones
 
 def extract_icons():
-    """Atlas de sprites 16x16 (fallback: reduz o que for maior)."""
-    from PIL import Image
-    found = {}
-    pat = re.compile(r"^assets/([a-z0-9_.-]+)/textures/item/(.+)\.png$")
-    for jp in JARS:
-        with zipfile.ZipFile(jp) as z:
-            for n in z.namelist():
-                m = pat.match(n)
-                if not m:
-                    continue
-                ns, path = m.groups()
-                ident = f"{ns}:{path}"
-                if ident in found:
-                    continue
-                try:
-                    found[ident] = z.read(n)
-                except Exception:
-                    pass
-    ids = sorted(found)
-    cols = 64
-    cell = 16
-    rows = (len(ids) + cols - 1) // cols
-    atlas = Image.new("RGBA", (cols * cell, rows * cell), (0, 0, 0, 0))
-    pos = {}
-    for i, ident in enumerate(ids):
-        try:
-            im = Image.open(io.BytesIO(found[ident])).convert("RGBA")
-        except Exception:
-            continue
-        # animadas: usa so o primeiro frame
-        if im.height > im.width and im.height % im.width == 0:
-            im = im.crop((0, 0, im.width, im.width))
-        if im.size != (cell, cell):
-            im = im.resize((cell, cell), Image.NEAREST)
-        x, y = (i % cols) * cell, (i // cols) * cell
-        atlas.paste(im, (x, y))
-        pos[ident] = [i % cols, i // cols]
-    d = os.path.join(OUT, "icons")
-    os.makedirs(d, exist_ok=True)
-    atlas.save(os.path.join(d, "atlas.png"), optimize=True)
-    with io.open(os.path.join(d, "atlas.json"), "w", encoding="utf-8") as f:
-        json.dump({"cell": cell, "cols": cols, "rows": rows, "pos": pos},
-                  f, ensure_ascii=False, separators=(",", ":"))
-    return len(pos), (cols * cell, rows * cell)
+    """Atlas resolvido pelos modelos (ver tools/icons.py)."""
+    import icons as icons_mod
+    names = jload_out("names.json")
+    recipes = jload_out("recipes.json")
+    tags = jload_out("tags.json")
+
+    # tudo que pode aparecer na tela: nomes conhecidos + ids citados em
+    # receitas + membros de tag (o chip de tag mostra o icone do 1o membro)
+    ids = set(names)
+    for r in recipes:
+        for side in ("in", "out"):
+            for x in r.get(side, []):
+                if x["k"] == "i":
+                    ids.add(x["id"])
+                else:
+                    ids.update(tags.get(x["id"], [])[:3])
+        if r.get("outv"):
+            ids.add(r["outv"])
+
+    pos, st = icons_mod.build(JARS, sorted(ids), os.path.join(OUT, "icons"))
+    return st
+
+
+def jload_out(name):
+    return json.load(io.open(os.path.join(OUT, name), encoding="utf-8"))
 
 
 # ---------------------------------------------------------------- agricraft
@@ -788,6 +848,13 @@ if __name__ == "__main__":
 
     if only in ("all", "recipes"):
         log("receitas...")
+        try:
+            KNOWN_ITEMS = set(json.load(io.open(
+                os.path.join(OUT, "names.json"), encoding="utf-8")))
+            globals()["KNOWN_ITEMS"] = KNOWN_ITEMS
+        except Exception:
+            log("   (names.json ausente: rode 'names' antes para filtrar melhor)")
+        log(f"   mods instalados: {len(installed_modids())}")
         rec = extract_recipes()
         log(f"   {len(rec):,} dos jars")
         added, removals, fails = extract_pack_recipes()
@@ -805,8 +872,13 @@ if __name__ == "__main__":
 
     if only in ("all", "icons"):
         log("icones...")
-        n, size = extract_icons()
-        log(f"   {n:,} sprites, atlas {size[0]}x{size[1]}")
+        st = extract_icons()
+        log(f"   {st['resolvidos']:,}/{st['pedidos']:,} ids com icone "
+            f"({100*st['resolvidos']/max(1,st['pedidos']):.0f}%), "
+            f"{st['sprites_unicos']:,} sprites unicos, "
+            f"atlas {st['tamanho'][0]}x{st['tamanho'][1]}")
+        if st["exemplos_sem"]:
+            log(f"   sem icone (exemplos): {', '.join(st['exemplos_sem'][:5])}")
 
     if only in ("all", "agricraft"):
         log("agricraft...")
