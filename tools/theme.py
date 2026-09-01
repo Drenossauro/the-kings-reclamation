@@ -141,7 +141,9 @@ kbd{
 /* ---------- icones ---------- */
 .ico{
   display:inline-block; width:32px; height:32px; flex:none;
-  background-image:var(--atlas); background-repeat:no-repeat;
+  /* caminho relativo a ESTA folha (assets/), nao ao documento: funciona tanto
+     na raiz quanto sob um sub-path como /the-kings-reclamation/ */
+  background-image:url(../icons/atlas.png); background-repeat:no-repeat;
   image-rendering:pixelated;
   background-size:calc(var(--acols) * 32px) calc(var(--arows) * 32px);
 }

@@ -57,10 +57,9 @@ FOOT = (
 def page(fname, title, active, body, page_js="", atlas=None, narrow=False):
     atlas_vars = ""
     if atlas:
-        # caminho absoluto de proposito: url() dentro de custom property resolve
-        # relativo a folha onde a var e USADA (wiki.css), nao a este documento
-        atlas_vars = (f":root{{--atlas:url(/icons/atlas.png);"
-                      f"--acols:{atlas['cols']};--arows:{atlas['rows']}}}")
+        # so numeros: a URL do atlas mora no wiki.css, pra resolver relativo
+        # a folha e sobreviver a hospedagem sob sub-path (GitHub Pages)
+        atlas_vars = (f":root{{--acols:{atlas['cols']};--arows:{atlas['rows']}}}")
     doc = f"""<!doctype html>
 <html lang="pt-BR">
 <head>

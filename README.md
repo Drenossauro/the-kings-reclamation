@@ -3,7 +3,7 @@
 Wiki completa do modpack **Reclamation — Reclaim the World**
 (v2.3.2 · Minecraft 1.20.1 · Forge 47.4.0), em português.
 
-🌱 **https://the-kings-reclamation.vercel.app**
+🌱 **https://drenossauro.github.io/the-kings-reclamation/**
 
 ## O que a torna diferente
 
@@ -37,8 +37,11 @@ diferença entre uma wiki que às vezes mente e uma que confere com o EMI.
 ```bash
 python tools/extract.py all     # jars + datapack + node dump -> data/
 python tools/build_site.py      # data/ -> site/
-vercel deploy --prod --yes
+git add -A && git commit -m "..." && git push   # o Pages publica sozinho
 ```
+
+O `site/` fica versionado de proposito: gerar exige os jars do modpack, que so
+existem na maquina local, entao o CI nao tem como reconstruir.
 
 `tools/extract.py` aceita um estágio por vez (`names`, `recipes`, `icons`,
 `agricraft`, `bees`, `rituals`, `books`, `overlay`, `mods`) para iterar rápido.
