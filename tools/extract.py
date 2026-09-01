@@ -265,37 +265,73 @@ def installed_modids():
     return ids
 
 
+_TAGS = None
+
+
+def known_tags():
+    """Tags ja expandidas, para avaliar forge:tag_empty."""
+    global _TAGS
+    if _TAGS is None:
+        try:
+            _TAGS = json.load(io.open(os.path.join(OUT, "tags.json"),
+                                      encoding="utf-8"))
+        except Exception:
+            _TAGS = {}
+    return _TAGS
+
+
 def eval_condition(c, known_items=None):
-    """True = a receita vale neste pack. Desconhecido -> True (nao remove)."""
+    """True / False / None.
+
+    None = condicao que nao sei avaliar. Precisa ser distinta de True porque
+    dentro de um forge:not um "sei la, mantem" viraria "descarta" e apagaria
+    receitas legitimas (foi o que aconteceu com forge:tag_empty).
+    """
     if not isinstance(c, dict):
-        return True
+        return None
     t = c.get("type", "")
     if t.endswith("mod_loaded"):
         return c.get("modid") in installed_modids()
+    if t.endswith("tag_empty"):
+        tag = c.get("tag")
+        if not isinstance(tag, str):
+            return None
+        return len(known_tags().get(tag.lstrip("#"), [])) == 0
     if t.endswith(":not"):
-        return not eval_condition(c.get("value"), known_items)
+        v = eval_condition(c.get("value"), known_items)
+        return None if v is None else (not v)
     if t.endswith(":and"):
-        return all(eval_condition(x, known_items) for x in c.get("values", []))
+        vs = [eval_condition(x, known_items) for x in c.get("values", [])]
+        if any(v is False for v in vs):
+            return False
+        return None if any(v is None for v in vs) else True
     if t.endswith(":or"):
-        return any(eval_condition(x, known_items) for x in c.get("values", []))
+        vs = [eval_condition(x, known_items) for x in c.get("values", [])]
+        if any(v is True for v in vs):
+            return True
+        return None if any(v is None for v in vs) else False
     if t.endswith("item_exists"):
         if known_items is None:
-            return True
+            return None
         vals = c.get("values") or ([c["item"]] if isinstance(c.get("item"), str) else [])
+        if not vals:
+            return None
         return all(v in known_items for v in vals)
     if t.endswith("false"):
         return False
     if t.endswith("true"):
         return True
-    return True
+    return None
 
 
 def conditions_pass(d, known_items=None):
+    """So descarta com certeza: None (desconhecido) nunca remove receita."""
     for key in ("conditions", "bookshelf:load_conditions"):
         conds = d.get(key)
-        if isinstance(conds, list) and not all(
-                eval_condition(c, known_items) for c in conds):
-            return False
+        if isinstance(conds, list):
+            for c in conds:
+                if eval_condition(c, known_items) is False:
+                    return False
     return True
 
 
@@ -342,8 +378,8 @@ def norm_recipe(rid, d, source):
             if not inner:
                 continue
             conds = sub.get("conditions")
-            if isinstance(conds, list) and not all(
-                    eval_condition(c, KNOWN_ITEMS) for c in conds):
+            if isinstance(conds, list) and any(
+                    eval_condition(c, KNOWN_ITEMS) is False for c in conds):
                 continue
             out.extend(norm_recipe(f"{rid}#{i}", inner, source))
         return out
@@ -714,6 +750,116 @@ def extract_bees():
     return out
 
 
+# ---------------------------------------------------------------- embers
+
+def extract_embers():
+    """
+    Dados proprios do Embers Rekindled.
+
+    O destaque sao as receitas `embers:alchemy`: no jogo voce descobre a
+    combinacao de aspectus por tentativa e erro (o residuo da falha so diz
+    quantos acertos voce teve). Aqui a combinacao correta vem do datapack.
+    """
+    out = {"alchemy": [], "melting": [], "stamping": [], "boring": [],
+           "catalysis": [], "coefficients": [], "codex": {}}
+
+    def stack(x):
+        if not isinstance(x, dict):
+            return None
+        if isinstance(x.get("item"), str):
+            return {"k": "i", "id": x["item"], "n": x.get("count", 1)}
+        if isinstance(x.get("tag"), str):
+            return {"k": "t", "id": x["tag"], "n": x.get("count", 1)}
+        if isinstance(x.get("fluid"), str):
+            return {"k": "f", "id": x["fluid"], "n": x.get("amount", 0)}
+        return None
+
+    pat = re.compile(r"^data/([a-z0-9_.-]+)/recipes?/(.+)\.json$")
+    for jp in JARS:
+        with zipfile.ZipFile(jp) as z:
+            for n in z.namelist():
+                m = pat.match(n)
+                if not m:
+                    continue
+                try:
+                    d = jload(z.read(n))
+                except Exception:
+                    continue
+                if not isinstance(d, dict):
+                    continue
+                t = d.get("type", "")
+                if not t.startswith("embers:"):
+                    continue
+                if not conditions_pass(d, KNOWN_ITEMS):
+                    continue
+                name = m.group(2).split("/")[-1]
+                kind = t.split(":", 1)[1]
+
+                if kind == "alchemy":
+                    out["alchemy"].append({
+                        "name": name,
+                        "aspects": [a for a in map(stack, d.get("aspects", [])) if a],
+                        "inputs": [a for a in map(stack, d.get("inputs", [])) if a],
+                        "tablet": stack(d.get("tablet") or {}),
+                        "output": stack(d.get("output") or {}),
+                    })
+                elif kind == "melting":
+                    out["melting"].append({"name": name,
+                                           "input": stack(d.get("input") or {}),
+                                           "output": stack(d.get("output") or {})})
+                elif kind == "stamping":
+                    out["stamping"].append({
+                        "name": name, "stamp": d.get("stamp"),
+                        "input": stack(d.get("input") or {}),
+                        "fluid": stack(d.get("fluid") or {}),
+                        "output": stack(d.get("output") or {})})
+                elif kind == "boring":
+                    rb = d.get("required_block") or {}
+                    out["boring"].append({
+                        "name": name, "output": stack(d.get("output") or {}),
+                        "weight": d.get("weight"),
+                        "max_height": d.get("max_height"),
+                        "dimensions": d.get("dimensions"),
+                        "block": rb.get("block_tag") or rb.get("block"),
+                        "amount": rb.get("amount")})
+                elif kind == "catalysis_combustion":
+                    out["catalysis"].append({
+                        "name": name, "input": stack(d.get("input") or {}),
+                        "multiplier": d.get("multiplier"),
+                        "burn_time": d.get("burn_time"),
+                        "machine": (d.get("machine") or {}).get("item")})
+                elif kind == "metal_coefficient":
+                    out["coefficients"].append({
+                        "name": name,
+                        "block": d.get("block_tag") or d.get("block"),
+                        "value": d.get("coefficient")})
+
+    # texto do Ancient Codex (fica nas chaves de lang, nao em JSON de livro)
+    for jp in JARS:
+        if "embersrekindled" not in os.path.basename(jp):
+            continue
+        with zipfile.ZipFile(jp) as z:
+            try:
+                lang = jload(z.read("assets/embers/lang/en_us.json"))
+            except Exception:
+                break
+        entries = {}
+        for k, v in lang.items():
+            if not k.startswith("embers.research.page."):
+                continue
+            rest = k[len("embers.research.page."):]
+            eid, _, suf = rest.partition(".")
+            e = entries.setdefault(eid, {"id": eid, "title": None, "pages": []})
+            if suf == "title":
+                e["title"] = v
+            elif suf == "info" or suf.isdigit() or suf == "":
+                e["pages"].append(v)
+        out["codex"] = {k: v for k, v in entries.items() if v["title"]}
+        break
+
+    return out
+
+
 # ---------------------------------------------------------------- rituais
 
 def extract_rituals():
@@ -892,6 +1038,19 @@ if __name__ == "__main__":
         write("bees.json", b)
         log(f"   {len(b['species'])} especies, {len(b['mutations'])} mutacoes, "
             f"{len(b['combs'])} combs, {len(b['flowers'])} flores")
+
+    if only in ("all", "embers"):
+        log("embers...")
+        try:
+            globals()["KNOWN_ITEMS"] = set(json.load(io.open(
+                os.path.join(OUT, "names.json"), encoding="utf-8")))
+        except Exception:
+            pass
+        em = extract_embers()
+        write("embers.json", em)
+        log(f"   {len(em['alchemy'])} alquimias, {len(em['melting'])} melting, "
+            f"{len(em['stamping'])} stamping, {len(em['boring'])} boring, "
+            f"{len(em['codex'])} entradas do codex")
 
     if only in ("all", "rituals"):
         log("rituais...")

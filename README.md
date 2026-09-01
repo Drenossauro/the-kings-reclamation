@@ -28,6 +28,7 @@ diferença entre uma wiki que às vezes mente e uma que confere com o EMI.
 | Plantas | 171 plantas AgriCraft com solo/luz/estação + 124 mutações |
 | Abelhas | 77 espécies com genética + 85 mutações |
 | Rituais | Livro exclusivo do pack + 27 rites de circle magic com reagentes |
+| Embers | Guia do Embers Rekindled + as 32 combinacoes de alquimia (aspectus) |
 | Alterações | As 427 receitas adicionadas e 311 removidas pelo pack |
 | Mods | Os 169 mods com versão e função no pack |
 | Livros | Índice dos guidebooks in-game |
@@ -44,7 +45,7 @@ O `site/` fica versionado de proposito: gerar exige os jars do modpack, que so
 existem na maquina local, entao o CI nao tem como reconstruir.
 
 `tools/extract.py` aceita um estágio por vez (`names`, `recipes`, `icons`,
-`agricraft`, `bees`, `rituals`, `books`, `overlay`, `mods`) para iterar rápido.
+`agricraft`, `bees`, `rituals`, `embers`, `books`, `overlay`, `mods`) para iterar rápido.
 
 `tools/dump_kubejs.mjs` é o harness Node que executa os scripts do pack com
 stubs de `ServerEvents`/`Item`/`LootJS` e grava cada chamada de receita já

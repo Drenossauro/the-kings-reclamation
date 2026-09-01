@@ -231,6 +231,15 @@ tr:last-child td{border-bottom:0}
 .scrim{position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:70; display:none}
 .scrim.on{display:block}
 
+/* ---------- lista de etapas ---------- */
+.steps{list-style:none; padding:0; margin:0 0 22px; counter-reset:s}
+.steps>li{counter-increment:s; position:relative; padding-left:38px; margin:0 0 14px}
+.steps>li::before{
+  content:counter(s,decimal-leading-zero); position:absolute; left:0; top:2px;
+  font-family:"JetBrains Mono",monospace; font-size:11px; font-weight:600;
+  color:var(--copper); letter-spacing:.04em;
+}
+
 /* ---------- utilidades ---------- */
 .loading{
   font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--ink-3);
