@@ -834,6 +834,51 @@ def extract_embers():
                         "block": d.get("block_tag") or d.get("block"),
                         "value": d.get("coefficient")})
 
+    # --- o pack mexe na alquimia do Embers por KubeJS: sem aplicar isso, a
+    # lista mostraria receitas que nao existem e esconderia as que existem
+    try:
+        calls = json.load(io.open(DUMP, encoding="utf-8"))["calls"]
+    except Exception:
+        calls = []
+
+    removed_ids = set()
+    for c in calls:
+        if c.get("op") != "remove":
+            continue
+        a = (c.get("args") or [None])[0]
+        rid = a.get("id") if isinstance(a, dict) else (a if isinstance(a, str) else None)
+        if isinstance(rid, str):
+            removed_ids.add(rid)
+
+    before = len(out["alchemy"])
+    presentes = {a["name"] for a in out["alchemy"]}
+    out["alchemy"] = [a for a in out["alchemy"]
+                      if f"embers:alchemy/{a['name']}" not in removed_ids]
+    # so lista o que existia de fato: o pack tambem remove receitas de metais
+    # (aluminum, nickel) cujos mods nem estao instalados
+    out["removed_by_pack"] = sorted(
+        r.split("/")[-1] for r in removed_ids
+        if r.startswith("embers:alchemy/") and r.split("/")[-1] in presentes)
+
+    added = 0
+    for c in calls:
+        if c.get("op") != "custom":
+            continue
+        a = (c.get("args") or [None])[0]
+        if not isinstance(a, dict) or a.get("type") != "embers:alchemy":
+            continue
+        out["alchemy"].append({
+            "name": (c.get("rid") or "pack").split("/")[-1],
+            "aspects": [x for x in map(stack, a.get("aspects", [])) if x],
+            "inputs": [x for x in map(stack, a.get("inputs", [])) if x],
+            "tablet": stack(a.get("tablet") or {}),
+            "output": stack(a.get("output") or {}),
+            "pack": 1,
+        })
+        added += 1
+    out["stats"] = {"jars": before, "removidas": before - len(out["alchemy"]) + added,
+                    "adicionadas": added, "total": len(out["alchemy"])}
+
     # texto do Ancient Codex (fica nas chaves de lang, nao em JSON de livro)
     for jp in JARS:
         if "embersrekindled" not in os.path.basename(jp):
@@ -1048,7 +1093,9 @@ if __name__ == "__main__":
             pass
         em = extract_embers()
         write("embers.json", em)
-        log(f"   {len(em['alchemy'])} alquimias, {len(em['melting'])} melting, "
+        log(f"   {len(em['alchemy'])} alquimias validas neste pack "
+            f"(jars {em['stats']['jars']}, -{len(em['removed_by_pack'])} removidas, "
+            f"+{em['stats']['adicionadas']} do pack), {len(em['melting'])} melting, "
             f"{len(em['stamping'])} stamping, {len(em['boring'])} boring, "
             f"{len(em['codex'])} entradas do codex")
 
