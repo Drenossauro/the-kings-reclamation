@@ -228,6 +228,16 @@ tr:last-child td{border-bottom:0}
 .scrim{position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:70; display:none}
 .scrim.on{display:block}
 
+/* ---------- botoes ---------- */
+.btn{
+  font-family:"Oswald",Impact,sans-serif; text-transform:uppercase; font-size:12.5px;
+  letter-spacing:.05em; cursor:pointer; padding:9px 16px; border-radius:4px;
+  border:1px solid var(--verdigris); background:var(--verdigris); color:var(--ground);
+}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn.ghost:hover{color:var(--ink); border-color:var(--ink-3)}
+
 /* ---------- lista de etapas ---------- */
 .steps{list-style:none; padding:0; margin:0 0 22px; counter-reset:s}
 .steps>li{counter-increment:s; position:relative; padding-left:38px; margin:0 0 14px}

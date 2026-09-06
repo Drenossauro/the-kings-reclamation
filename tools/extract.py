@@ -792,12 +792,17 @@ def extract_embers():
                     continue
                 if not conditions_pass(d, KNOWN_ITEMS):
                     continue
-                name = m.group(2).split("/")[-1]
+                # caminho completo: entra no calculo do codigo de alquimia
+                # (o mod usa id.getPath().hashCode())
+                full_path = m.group(2)
+                name = full_path.split("/")[-1]
                 kind = t.split(":", 1)[1]
 
                 if kind == "alchemy":
                     out["alchemy"].append({
                         "name": name,
+                        "path": full_path,
+                        "ns": m.group(1),
                         "aspects": [a for a in map(stack, d.get("aspects", [])) if a],
                         "inputs": [a for a in map(stack, d.get("inputs", [])) if a],
                         "tablet": stack(d.get("tablet") or {}),

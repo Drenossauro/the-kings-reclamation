@@ -28,7 +28,7 @@ diferença entre uma wiki que às vezes mente e uma que confere com o EMI.
 | Plantas | 171 plantas AgriCraft com solo/luz/estação + 124 mutações |
 | Abelhas | 77 espécies com genética + 85 mutações |
 | Rituais | Livro exclusivo do pack + 27 rites de circle magic com reagentes |
-| Embers | Guia do Embers Rekindled + as 32 combinacoes de alquimia (aspectus) |
+| Embers | Guia do Embers Rekindled, as combinacoes de alquimia e o **solver de aspectus por seed** |
 | Alterações | As 427 receitas adicionadas e 311 removidas pelo pack |
 | Mods | Os 169 mods com versão e função no pack |
 | Livros | Índice dos guidebooks in-game |
@@ -57,6 +57,7 @@ resolvida.
 |---|---|
 | `tools/extract.py` | jars/datapack/scripts → `data/*.json` |
 | `tools/dump_kubejs.mjs` | executa os scripts do pack, captura as receitas |
+| `tools/alchemy_solver.py` | resolve o codigo de alquimia do Embers para uma seed |
 | `tools/theme.py` | CSS e JS compartilhados pelas páginas |
 | `tools/build_site.py` | `data/` → `site/` |
 | `manual-reclamation.html` | fonte do guia de progressão (vira `site/guia.html`) |
