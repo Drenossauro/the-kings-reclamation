@@ -95,6 +95,16 @@ com OP, <code>/seed</code> in-game.</p></div>
 <p>O campo abaixo vem preenchido com a seed do nosso servidor, ent&atilde;o a lista j&aacute;
 aparece pronta. Trocando a seed, ele recalcula para qualquer outro mundo &mdash; o
 c&aacute;lculo roda no seu navegador e o valor fica salvo s&oacute; nele.</p></div>
+<div class="note tip"><span class="lbl">Aspectus n&atilde;o s&atilde;o consumidos</span>
+<p>No sucesso, o mod limpa apenas o slot <strong>de cima</strong> do pedestal &mdash; o
+ingrediente. O aspectus fica no slot <strong>de baixo</strong> e serve para sempre. No
+fracasso, 2 ingredientes aleat&oacute;rios s&atilde;o perdidos
+(<code>CONSUME_AMOUNT = 2</code>), e os aspectus tamb&eacute;m sobrevivem.</p>
+<p>Ou seja: fabrique cada aspectus <strong>uma vez</strong>. O que importa &eacute; o
+m&aacute;ximo simult&acirc;neo de cada tipo, n&atilde;o a soma das receitas.</p></div>
+<div class="note"><span class="lbl">Onde os pedestais valem</span>
+<p>O tablet procura pedestais numa &aacute;rea <strong>7&times;7 centrada nele, exatamente 1
+bloco acima</strong>. Fora disso o pedestal &eacute; ignorado.</p></div>
 <div class="searchbar">
   <input type="search" id="seed" placeholder="cole a seed do mundo"
          inputmode="numeric" autocomplete="off">
@@ -102,6 +112,8 @@ c&aacute;lculo roda no seu navegador e o valor fica salvo s&oacute; nele.</p></d
   <button id="clr" type="button" class="btn ghost">Limpar</button>
 </div>
 <p class="count" id="scount"></p>
+<div id="need"></div>
+
 <div id="solved"></div>
 
 <h2>Escalada de efici&ecirc;ncia</h2>
@@ -390,6 +402,7 @@ const PACKR = [{"id":"embers:alchemy/copper_crystal_seed","t":"embers:alchemy","
         (a.inputs.length - b.inputs.length) ||
         nameOf(a.output.id).localeCompare(nameOf(b.output.id)));
 
+      const globalNeed = new Map();
       const frag = document.createDocumentFragment();
       solvable.forEach((a) => {
         const idx = codeFor(seedStr, a.path, a.aspects.length, a.inputs.length);
@@ -422,6 +435,22 @@ const PACKR = [{"id":"embers:alchemy/copper_crystal_seed","t":"embers:alchemy","
         pb.className = "badge";
         pb.textContent = a.inputs.length + " pedestais";
         head.appendChild(pb);
+        // quantos aspectus de cada tipo esta receita pede
+        const tally = new Map();
+        pairs.forEach((p) => tally.set(p.asp, (tally.get(p.asp) || 0) + p.n));
+        const tl = document.createElement("span");
+        tl.style.cssText = "display:inline-flex;gap:5px;flex-wrap:wrap";
+        Array.from(tally.entries()).sort((x, y) => y[1] - x[1]).forEach((e) => {
+          const b = document.createElement("span");
+          b.className = "badge aura";
+          b.textContent = String(e[0]).split("/").pop().toUpperCase() + " \u00d7" + e[1];
+          tl.appendChild(b);
+        });
+        head.appendChild(tl);
+        tally.forEach((v, k) => {
+          const cur = globalNeed.get(k) || 0;
+          if (v > cur) globalNeed.set(k, v);
+        });
         card.appendChild(head);
 
         const list = document.createElement("div");
@@ -452,6 +481,33 @@ const PACKR = [{"id":"embers:alchemy/copper_crystal_seed","t":"embers:alchemy","
         card.appendChild(list);
         frag.appendChild(card);
       });
+      // pior caso simultaneo por tipo: e isso que voce precisa fabricar
+      const need = document.getElementById("need");
+      if (need) {
+        const d = document.createElement("div");
+        d.className = "note tip";
+        const l = document.createElement("span");
+        l.className = "lbl";
+        l.textContent = "Fabrique estes aspectus (pior caso simultaneo)";
+        d.appendChild(l);
+        const row = document.createElement("p");
+        row.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;margin:0";
+        let total = 0;
+        Array.from(globalNeed.entries()).sort((x, y) => y[1] - x[1]).forEach((e) => {
+          total += e[1];
+          const b = document.createElement("span");
+          b.className = "badge aura";
+          b.textContent = String(e[0]).split("/").pop().toUpperCase() + " \u00d7" + e[1];
+          row.appendChild(b);
+        });
+        d.appendChild(row);
+        const p = document.createElement("p");
+        p.style.margin = "9px 0 0";
+        p.textContent = total + " aspectus no total cobrem todas as receitas abaixo, " +
+          "porque eles nao sao consumidos.";
+        d.appendChild(p);
+        need.replaceChildren(d);
+      }
       box.replaceChildren(frag);
     }
 
