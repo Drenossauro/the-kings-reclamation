@@ -105,6 +105,11 @@ m&aacute;ximo simult&acirc;neo de cada tipo, n&atilde;o a soma das receitas.</p>
 <div class="note"><span class="lbl">Onde os pedestais valem</span>
 <p>O tablet procura pedestais numa &aacute;rea <strong>7&times;7 centrada nele, exatamente 1
 bloco acima</strong>. Fora disso o pedestal &eacute; ignorado.</p></div>
+<div class="note warn"><span class="lbl">O que o jogo confere &eacute; o PAR</span>
+<p>N&atilde;o basta ter as quantidades certas de aspectus na mesa. Cada aspectus tem
+que estar <strong>embaixo do item certo</strong>. Trocar dois de lugar mantendo o
+total falha do mesmo jeito.</p>
+<p>Itens id&ecirc;nticos entre si podem ser trocados &agrave; vontade; o resto n&atilde;o.</p></div>
 <div class="searchbar">
   <input type="search" id="seed" placeholder="cole a seed do mundo"
          inputmode="numeric" autocomplete="off">
@@ -446,12 +451,22 @@ const PACKR = [{"id":"embers:alchemy/copper_crystal_seed","t":"embers:alchemy","
           b.textContent = String(e[0]).split("/").pop().toUpperCase() + " \u00d7" + e[1];
           tl.appendChild(b);
         });
+        const tlbl = document.createElement("span");
+        tlbl.className = "mono dim";
+        tlbl.textContent = "precisa de:";
+        head.appendChild(tlbl);
         head.appendChild(tl);
         tally.forEach((v, k) => {
           const cur = globalNeed.get(k) || 0;
           if (v > cur) globalNeed.set(k, v);
         });
         card.appendChild(head);
+
+        const plbl = document.createElement("div");
+        plbl.className = "mono dim";
+        plbl.style.margin = "2px 0 6px";
+        plbl.textContent = "monte assim \u2014 cada aspectus embaixo do seu item:";
+        card.appendChild(plbl);
 
         const list = document.createElement("div");
         list.style.cssText = "display:flex;flex-direction:column;gap:6px";
