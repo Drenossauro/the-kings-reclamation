@@ -56,14 +56,35 @@ def write(name, obj):
 VANILLA = r"C:\Users\PC\curseforge\minecraft\Install\versions\1.20.1\1.20.1.jar"
 
 
+LIBS = os.path.join(os.path.dirname(os.path.dirname(VANILLA)), "..", "libraries")
+
+
+def forge_jars():
+    """
+    O Forge define tags proprias (forge:rods, forge:ingots, forge:plates...)
+    que os mods referenciam o tempo todo. Elas moram no jar universal dentro
+    de libraries/, nao em mods/ — sem isso, tags forge:* saem incompletas.
+    """
+    base = os.path.abspath(LIBS)
+    out = []
+    if not os.path.isdir(base):
+        return out
+    for root, _, files in os.walk(base):
+        for f in files:
+            if f.endswith(".jar") and "forge" in f.lower() and "universal" in f.lower():
+                out.append(os.path.join(root, f))
+    return out
+
+
 def jar_list():
     mods = [os.path.join(MODS, f) for f in sorted(os.listdir(MODS)) if f.endswith(".jar")]
-    # o jar vanilla vem primeiro: e a base que os mods sobrepoem
-    return ([VANILLA] if os.path.exists(VANILLA) else []) + mods
+    # ordem = precedencia: vanilla, depois forge, depois os mods
+    return ([VANILLA] if os.path.exists(VANILLA) else []) + forge_jars() + mods
 
 
 JARS = jar_list()
-log(f"jars: {len(JARS)} (vanilla: {'sim' if os.path.exists(VANILLA) else 'NAO ENCONTRADO'})")
+log(f"jars: {len(JARS)} (vanilla: {'sim' if os.path.exists(VANILLA) else 'NAO'}, "
+    f"forge: {len(forge_jars())})")
 
 
 # ---------------------------------------------------------------- nomes
