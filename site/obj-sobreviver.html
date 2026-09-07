@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sobreviver ao começo</title>
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/wiki.css">
+<style>:root{--acols:96;--arows:154}</style>
+</head>
+<body>
+<header class="gnav"><div class="gnav-in"><a class="brand" href="index.html">The Kings <span>Reclamation</span></a><nav><a href="index.html">Início</a><a href="objetivos.html" class="on">Objetivos</a><a href="itens.html">Itens</a><a href="alteracoes.html">Alterações</a><a href="referencia.html">Referência</a></nav></div></header>
+<main class="page narrow">
+<nav class="goalbar"><a href="obj-sobreviver.html" class="on">Sobreviver</a><a href="obj-terra.html">Terra e grama</a><a href="obj-metal.html">Metal</a><a href="obj-energia.html">Energia</a><a href="obj-comida.html">Comida</a><a href="obj-automatizar.html">Automatizar</a><a href="obj-gemas.html">Gemas</a><a href="obj-vida.html">Vida animal</a><a href="obj-endgame.html">Reclamar o mundo</a></nav>
+<p class="eyebrow">Objetivo &middot; primeiras horas · antes de ter terra</p>
+<h1>Sobreviver ao começo</h1>
+<p class="lede">Você acordou num deserto morto, sem minério e sem árvore viva. Esta página cobre as primeiras horas: o que dá pra quebrar, o que dá pra comer e como tirar o primeiro metal do chão.</p>
+<h2>O que existe no mundo</h2>
+
+<p>Vale internalizar isso antes de perder tempo: <strong>nenhum minério gera</strong>,
+os únicos biomas são deserto morto, e as únicas árvores são mortas. Variantes de pedra
+ainda geram, e <strong>areia e argila existem debaixo d'água</strong>.</p>
+<p>Zombie villager e bruxa não spawnam — não há como tirar recurso deles. Aranha só
+aparece na versão <em>cave spider</em>, venenosa. Wandering trader está desligado e a
+dificuldade é travada em <strong>hard</strong>.</p>
+<h2>Cobre: o primeiro metal</h2>
+
+<p>Nas ruínas há <strong>Oxidized Cut Copper</strong>. Raspe a ferrugem com um machado
+até virar Cut Copper, e processe na <strong>Cutting Board</strong> do Farmer's Delight —
+rende cerca de <strong>8 lingotes por bloco</strong> (6 garantidos, +2 a 75%, +1 a 50%).</p>
+<div class="routes" id="rt1"></div>
+<h2>A fonte infinita de cobre que ninguém conta</h2>
+
+<div class="note secret"><span class="lbl">Não está em nenhuma quest</span>
+<p>Segure uma <strong>tigela (Bowl)</strong> e clique com botão direito em
+<strong>gravel</strong>. Aparece <em>"Sifting for copper..."</em> e há
+<strong>25% de chance</strong> de sair um copper nugget. Repetível, sem custo, sem
+ferramenta. É a melhor fonte de cobre do começo.</p></div>
+<h2>Madeira e comida</h2>
+
+<p>As árvores mortas dão <strong>Dead Log</strong> → <strong>Flimsy Planks</strong>, e
+cada log tem <strong>10% de chance de dropar carvão vegetal</strong> direto. A cutting
+board também tira mais carvão e scrap wood deles.</p>
+<p><strong>Peixe</strong> é a comida inicial — fatiar na cutting board rende mais. A
+<strong>Flimsy Door</strong> quebra sozinha de vez em quando; é proposital.</p>
+<h2>Ajustes que evitam dor de cabeça</h2>
+
+<div class="note warn"><span class="lbl">Faça agora</span>
+<p><strong>Desligue a proteção do claim</strong> (OPAC). Ela quebra fake players, que é
+como boa parte das máquinas do pack age. Recomendação do próprio autor do pack.</p>
+<p>Junte todo livro-guia no <strong>Akashic Tome</strong>. E lembre que
+<kbd>R</kbd> mostra como fazer e <kbd>U</kbd> mostra onde usa, no EMI.</p></div>
+<p class="foot">Wiki gerada a partir da instalação local — Reclamation 2.3.2 · Minecraft 1.20.1 · Forge 47.4.0.<br>Dados extraídos dos 169 jars, do datapack do pack e dos scripts KubeJS executados.<br>Se o modpack for atualizado, receitas podem mudar: o EMI in-game é a fonte definitiva.</p>
+</main>
+<script src="assets/wiki.js"></script>
+<script>const ROUTES = [["rt1", ["minecraft:copper_ingot"]]];
+
+(async () => {
+  if (!ROUTES.length) return;
+  await Promise.all([loadNames(), loadAtlas(), loadTags(), loadRecipes()]);
+  const idx = buildIndex();
+  ROUTES.forEach(([slot, ids]) => {
+    const box = document.getElementById(slot);
+    if (!box) return;
+    const frag = document.createDocumentFragment();
+    ids.forEach((id) => {
+      const made = (idx.made.get(id) || []).map((i) => W.recipes[i])
+        .filter((r) => !r.removed);
+      const h = document.createElement("h3");
+      const ic = icon(id, true);
+      ic.style.verticalAlign = "middle";
+      h.appendChild(ic);
+      h.appendChild(document.createTextNode(" " + nameOf(id)));
+      frag.appendChild(h);
+      if (!made.length) {
+        const p = document.createElement("p");
+        p.className = "empty";
+        p.textContent = "Nenhuma receita produz este item — vem de drop, ritual ou geração.";
+        frag.appendChild(p);
+        return;
+      }
+      // ranking: o banco nao sabe o que e alcancavel neste pack.
+      // minerio so existe tarde (Orechid), entao rota que parte de minerio
+      // nao pode encabecar uma pagina de "como conseguir".
+      const ORE = /(_ore$|ores?\/|^minecraft:raw_|_raw_|:raw_|raw_materials?\/)/;
+      const SMELT = /smelting|blasting/;
+      // desempacotar (bloco->lingote, nugget->lingote) e reversivel: nao e
+      // "de onde vem", e so troco de formato
+      const PACKING = /(_block$|_nugget$|block_of|nuggets?\/|storage_blocks?\/|_blocks$)/;
+      const outIds = new Set((made[0] ? [id] : []));
+      const score = (r) => {
+        let v = 0;
+        if (r.pack) v -= 3;                                   // receita do pack: relevante
+        if ((r.in || []).some((x) => ORE.test(x.id))) v += 5;  // depende de minerio
+        if ((r.in || []).some((x) => PACKING.test(x.id))) v += 4;  // so muda de formato
+        if ((r.in || []).some((x) => outIds.has(x.id))) v += 6;    // entra e sai o mesmo
+        if (SMELT.test(r.t)) v += 2;                           // etapa final, nao origem
+        v += (r.in || []).length * 0.1;                        // simples primeiro
+        return v;
+      };
+      made.sort((a, b) => score(a) - score(b));
+
+      made.slice(0, 8).forEach((r) => frag.appendChild(recipeCard(r, (en) => {
+        if (en.k === "i") location.href = "itens.html?id=" + encodeURIComponent(en.id);
+      })));
+      if (made.length > 8) {
+        const p = document.createElement("p");
+        p.className = "dim mono";
+        const a = document.createElement("a");
+        a.href = "itens.html?id=" + encodeURIComponent(id);
+        a.textContent = "ver todas as " + made.length;
+        p.appendChild(document.createTextNode("mostrando 8 de " + made.length + " — "));
+        p.appendChild(a);
+        frag.appendChild(p);
+      }
+    });
+    box.replaceChildren(frag);
+  });
+})();
+</script>
+</body>
+</html>

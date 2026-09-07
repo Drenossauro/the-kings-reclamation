@@ -113,6 +113,13 @@ function recipeCard(r, onItem) {
   t.className = "rec-t";
   t.textContent = recipeTypeLabel(r.t);
   h.appendChild(t);
+  if ((r.in || []).some((x) => /(_ore$|ores?\/|^minecraft:raw_|_raw_|:raw_|raw_materials?\/)/.test(x.id))) {
+    const b = document.createElement("span");
+    b.className = "badge";
+    b.title = "Nenhum minerio gera neste mundo; so via Orechid, no late game.";
+    b.textContent = "precisa de minerio";
+    h.appendChild(b);
+  }
   if (r.pack) {
     const b = document.createElement("span");
     b.className = "badge pack";

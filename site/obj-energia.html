@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conseguir energia</title>
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/wiki.css">
+<style>:root{--acols:96;--arows:154}</style>
+</head>
+<body>
+<header class="gnav"><div class="gnav-in"><a class="brand" href="index.html">The Kings <span>Reclamation</span></a><nav><a href="index.html">Início</a><a href="objetivos.html" class="on">Objetivos</a><a href="itens.html">Itens</a><a href="alteracoes.html">Alterações</a><a href="referencia.html">Referência</a></nav></div></header>
+<main class="page narrow">
+<nav class="goalbar"><a href="obj-sobreviver.html">Sobreviver</a><a href="obj-terra.html">Terra e grama</a><a href="obj-metal.html">Metal</a><a href="obj-energia.html" class="on">Energia</a><a href="obj-comida.html">Comida</a><a href="obj-automatizar.html">Automatizar</a><a href="obj-gemas.html">Gemas</a><a href="obj-vida.html">Vida animal</a><a href="obj-endgame.html">Reclamar o mundo</a></nav>
+<p class="eyebrow">Objetivo &middot; quando uma máquina não liga</p>
+<h1>Conseguir energia</h1>
+<p class="lede">São cinco energias diferentes e elas não se substituem: Ember, Aura, Mana, Source e RF. Cada máquina quer a sua. Esta página diz qual você precisa e como conseguir.</p>
+<h2>Qual energia serve para quê</h2>
+
+<div class="tbl"><table>
+<thead><tr><th>Energia</th><th>Mod</th><th>Move</th></tr></thead><tbody>
+<tr><td><strong>Ember</strong></td><td>Embers</td><td>fundição, estampagem, alquimia de aspectus</td></tr>
+<tr><td><strong>Aura</strong></td><td>Nature's Aura</td><td>Natural Altar, transmutações, Altar of Birthing</td></tr>
+<tr><td><strong>Mana</strong></td><td>Botania</td><td>flores, Terrasteel, e vira RF no Mana Fluxfield</td></tr>
+<tr><td><strong>Source</strong></td><td>Ars Nouveau</td><td>encantamento, rituais, familiares</td></tr>
+<tr><td><strong>RF</strong></td><td>Mekanism / AE2</td><td>máquinas, reatores, rede ME</td></tr>
+</tbody></table></div>
+<h2>Ember: infinito, no fundo do mundo</h2>
+
+<p>O <strong>Ember Bore</strong> vai <strong>sobre a bedrock</strong>, com um
+<strong>Mechanical Core</strong> em cima. Precisa de 3 blocos de
+<code>embers:world_bottom</code> encostando nas lâminas, abaixo de <strong>Y −57</strong>.
+Sai Ember Shard 60%, Crystal 20%, Grit 20%.</p>
+<div class="note warn"><span class="lbl">Regra do Embers</span>
+<p><strong>Quase tudo precisa de sinal de redstone.</strong> Máquina parada quase sempre
+é alavanca faltando. E use o <strong>Tinker's Lens</strong> pra ver o fluxo.</p></div>
+<p>Detalhes e a escalada de eficiência estão no <a href="embers.html">guia do Embers</a>.</p>
+<div class="routes" id="rt1"></div>
+<h2>Aura: por chunk, e não volta sozinha</h2>
+
+<p>A aura é <strong>por chunk</strong> e <strong>não se regenera</strong>. Se o Natural
+Altar parou, é isso. Segure o <strong>Environmental Eye</strong> pra medir.</p>
+<p><strong>Drena:</strong> Natural Altar, Bottled Sunlight, Biome Globes, Conversion
+Catalyst. <strong>Repõe:</strong> Ancient Sapling, Flower Generator (varie as flores!),
+plantações e criação de animais.</p>
+<div class="note tip"><span class="lbl">Regra prática</span>
+<p>Altar sustentável = altar <strong>+ 2 ou 3 geradores no mesmo chunk</strong>. O altar
+nunca leva a aura a negativo — ele só para de funcionar.</p></div>
+<div class="routes" id="rt2"></div>
+<h2>Mana e RF</h2>
+
+<p>Comece pelo <strong>Endoflame</strong>. Depois Thermalily (lava), Entropinnyum (TNT,
+um dos melhores) e Munchdew (folhas). Use <strong>Sparks</strong> no lugar de spreaders
+quando o volume crescer.</p>
+<p>Para RF, o caminho curto é o <strong>Mana Fluxfield</strong>: aponte um spreader nele
+e sai RF. Depois, <strong>Aerated Essence</strong> no Gas-Burning Generator carrega o
+mid-game inteiro.</p>
+<div class="routes" id="rt3"></div>
+<p class="foot">Wiki gerada a partir da instalação local — Reclamation 2.3.2 · Minecraft 1.20.1 · Forge 47.4.0.<br>Dados extraídos dos 169 jars, do datapack do pack e dos scripts KubeJS executados.<br>Se o modpack for atualizado, receitas podem mudar: o EMI in-game é a fonte definitiva.</p>
+</main>
+<script src="assets/wiki.js"></script>
+<script>const ROUTES = [["rt1", ["embers:ember_bore", "embers:copper_cell"]], ["rt2", ["naturesaura:nature_altar", "naturesaura:flower_generator"]], ["rt3", ["botania:mana_fluxfield", "mekanismgenerators:gas_burning_generator"]]];
+
+(async () => {
+  if (!ROUTES.length) return;
+  await Promise.all([loadNames(), loadAtlas(), loadTags(), loadRecipes()]);
+  const idx = buildIndex();
+  ROUTES.forEach(([slot, ids]) => {
+    const box = document.getElementById(slot);
+    if (!box) return;
+    const frag = document.createDocumentFragment();
+    ids.forEach((id) => {
+      const made = (idx.made.get(id) || []).map((i) => W.recipes[i])
+        .filter((r) => !r.removed);
+      const h = document.createElement("h3");
+      const ic = icon(id, true);
+      ic.style.verticalAlign = "middle";
+      h.appendChild(ic);
+      h.appendChild(document.createTextNode(" " + nameOf(id)));
+      frag.appendChild(h);
+      if (!made.length) {
+        const p = document.createElement("p");
+        p.className = "empty";
+        p.textContent = "Nenhuma receita produz este item — vem de drop, ritual ou geração.";
+        frag.appendChild(p);
+        return;
+      }
+      // ranking: o banco nao sabe o que e alcancavel neste pack.
+      // minerio so existe tarde (Orechid), entao rota que parte de minerio
+      // nao pode encabecar uma pagina de "como conseguir".
+      const ORE = /(_ore$|ores?\/|^minecraft:raw_|_raw_|:raw_|raw_materials?\/)/;
+      const SMELT = /smelting|blasting/;
+      // desempacotar (bloco->lingote, nugget->lingote) e reversivel: nao e
+      // "de onde vem", e so troco de formato
+      const PACKING = /(_block$|_nugget$|block_of|nuggets?\/|storage_blocks?\/|_blocks$)/;
+      const outIds = new Set((made[0] ? [id] : []));
+      const score = (r) => {
+        let v = 0;
+        if (r.pack) v -= 3;                                   // receita do pack: relevante
+        if ((r.in || []).some((x) => ORE.test(x.id))) v += 5;  // depende de minerio
+        if ((r.in || []).some((x) => PACKING.test(x.id))) v += 4;  // so muda de formato
+        if ((r.in || []).some((x) => outIds.has(x.id))) v += 6;    // entra e sai o mesmo
+        if (SMELT.test(r.t)) v += 2;                           // etapa final, nao origem
+        v += (r.in || []).length * 0.1;                        // simples primeiro
+        return v;
+      };
+      made.sort((a, b) => score(a) - score(b));
+
+      made.slice(0, 8).forEach((r) => frag.appendChild(recipeCard(r, (en) => {
+        if (en.k === "i") location.href = "itens.html?id=" + encodeURIComponent(en.id);
+      })));
+      if (made.length > 8) {
+        const p = document.createElement("p");
+        p.className = "dim mono";
+        const a = document.createElement("a");
+        a.href = "itens.html?id=" + encodeURIComponent(id);
+        a.textContent = "ver todas as " + made.length;
+        p.appendChild(document.createTextNode("mostrando 8 de " + made.length + " — "));
+        p.appendChild(a);
+        frag.appendChild(p);
+      }
+    });
+    box.replaceChildren(frag);
+  });
+})();
+</script>
+</body>
+</html>

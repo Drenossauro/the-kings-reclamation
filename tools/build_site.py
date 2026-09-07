@@ -8,6 +8,7 @@ DATA = os.path.join(ROOT, "data")
 SITE = os.path.join(ROOT, "site")
 
 import theme
+import goals as goals_mod
 
 FONTS = ("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600"
          "&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400"
@@ -18,15 +19,10 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
 
 NAV = [
     ("index.html", "Início"),
-    ("guia.html", "Guia"),
+    ("objetivos.html", "Objetivos"),
     ("itens.html", "Itens"),
-    ("plantas.html", "Plantas"),
-    ("abelhas.html", "Abelhas"),
-    ("rituais.html", "Rituais"),
-    ("embers.html", "Embers"),
     ("alteracoes.html", "Alterações"),
-    ("mods.html", "Mods"),
-    ("livros.html", "Livros"),
+    ("referencia.html", "Referência"),
 ]
 
 
@@ -142,44 +138,33 @@ def prepare_db(atlas):
 # ======================================================================= paginas
 
 def build_index(stats):
-    cards = [
-        ("guia.html", "Guia de progressão",
-         "Os 9 atos do pack na ordem do questbook — de raspar cobre oxidado até abrir o End.",
-         "9 atos"),
+    goal_cards = "".join(
+        f'<a href="obj-{g["id"]}.html"><p class="t">{e(g["titulo"])}</p>'
+        f'<p class="d">{e(g["lede"][:120])}...</p>'
+        f'<p class="c">{e(g["quando"])}</p></a>'
+        for g in goals_mod.GOALS)
+
+    tools = [
         ("itens.html", "Itens e receitas",
-         "Busca em todos os itens do pack, com o que produz cada um e onde ele é usado.",
-         f"{stats['recipes']:,} receitas".replace(",", ".")),
-        ("plantas.html", "Plantas e cruzamento",
-         "A árvore de mutação do AgriCraft com as condições exatas de solo, luz e estação.",
-         f"{stats['plants']} plantas · {stats['mutations']} mutações"),
-        ("abelhas.html", "Abelhas",
-         "Espécies, genética e a cadeia de mutação do Complicated Bees.",
-         f"{stats['species']} espécies"),
-        ("rituais.html", "Rituais",
-         "O livro exclusivo do pack e os rites de circle magic, com reagentes e círculos.",
-         f"{stats['rituals']} rituais"),
+         "Busca em tudo, com o que produz cada item e onde ele é usado.",
+         f'{stats["recipes"]:,} receitas'.replace(",", ".")),
+        ("embers.html", "Solver de alquimia",
+         "Calcula a combinação de aspectus do Embers para a seed do seu mundo.",
+         f'{stats["alquimia"]} combinações'),
         ("alteracoes.html", "Alterado pelo pack",
-         "As receitas que o Reclamation adiciona e remove — onde a wiki genérica dos mods engana.",
-         f"{stats['added']} adicionadas · {stats['removed']} removidas"),
-        ("embers.html", "Guia do Embers",
-         "A rota completa do Ember e as 32 combinações de alquimia que o jogo esconde.",
-         f"{stats['alquimia']} combinações"),
-        ("mods.html", "Mods",
-         "Os 169 mods da instalação, com versão e função dentro do pack.",
-         "169 mods"),
-        ("livros.html", "Livros in-game",
-         "Índice das páginas de guidebook de cada mod, com o que cada livro cobre.",
-         f"{stats['book_pages']:,} páginas".replace(",", ".")),
+         "Onde a wiki genérica dos mods engana: o que o Reclamation adiciona e remove.",
+         f'{stats["added"]} + {stats["removed"]} receitas'),
     ]
-    hub = "".join(
+    tool_cards = "".join(
         f'<a href="{h}"><p class="t">{e(t)}</p><p class="d">{e(d)}</p><p class="c">{e(c)}</p></a>'
-        for h, t, d, c in cards)
+        for h, t, d, c in tools)
+
     body = f"""
-<p class="eyebrow">Wiki do modpack · Reclamation 2.3.2</p>
+<p class="eyebrow">Wiki do modpack &middot; Reclamation 2.3.2</p>
 <h1>The Kings Reclamation</h1>
-<p class="lede">Wiki construída a partir da instalação real do modpack: os jars, o datapack e os
-scripts do pack executados de verdade. Por isso ela acerta onde a documentação genérica dos mods
-erra — as receitas que o Reclamation reescreveu.</p>
+<p class="lede">Construída a partir da instalação real: os jars, o datapack e os scripts
+do pack executados de verdade. Por isso acerta onde a documentação genérica dos mods
+erra — nas receitas que o Reclamation reescreveu.</p>
 <div class="stats">
   <span>{stats['recipes']:,} receitas</span>
   <span>{stats['names']:,} itens</span>
@@ -188,18 +173,26 @@ erra — as receitas que o Reclamation reescreveu.</p>
   <span>{stats['species']} abelhas</span>
   <span>{stats['added'] + stats['removed']} receitas alteradas</span>
 </div>
-<div class="hub">{hub}</div>
+
+<h2>Está travado em quê?</h2>
+<div class="hub">{goal_cards}</div>
+
+<h2>Ferramentas</h2>
+<div class="hub">{tool_cards}</div>
+
+<h2>Referência</h2>
+<p>Guias por mod e os dados brutos: <a href="referencia.html">guia completo, plantas,
+abelhas, rituais, Embers, mods e livros</a>.</p>
 
 <h2>Como esta wiki foi feita</h2>
 <div class="note tip"><span class="lbl">Por que confiar nela</span>
-<p>Os dados não vêm de wiki de mod. Vêm de <code>C:\\Users\\PC\\curseforge\\...\\Reclamation</code>:
-169 jars lidos direto, o datapack <code>kubejs/data</code> do pack, e os
-<code>server_scripts</code> <strong>executados num KubeJS falso</strong> para capturar as receitas
-que só existem em tempo de execução — inclusive as geradas dentro de loops e funções.</p></div>
-<p>Isso importa porque o pack faz <strong>689 operações</strong> sobre receitas. Ler o código com
-expressão regular encontraria só 436 delas; executá-lo encontra todas. É a diferença entre uma
-wiki que às vezes mente e uma que confere com o seu EMI.</p>
-""".replace("{:,}", "")
+<p>Os dados vêm de 170 jars lidos direto (vanilla e Forge inclusos), do datapack
+<code>kubejs/data</code> do pack, e dos <code>server_scripts</code>
+<strong>executados num KubeJS falso</strong> para capturar as receitas que só existem em
+tempo de execução.</p></div>
+<p>Isso importa porque o pack faz <strong>689 operações</strong> sobre receitas. Ler o
+código com expressão regular encontraria 436; executá-lo encontra todas.</p>
+"""
     body = body.replace(f"{stats['recipes']:,}", f"{stats['recipes']:,}".replace(",", "."))
     body = body.replace(f"{stats['names']:,}", f"{stats['names']:,}".replace(",", "."))
     body = body.replace(f"{stats['icons']:,}", f"{stats['icons']:,}".replace(",", "."))
@@ -795,6 +788,149 @@ def build_embers(atlas, em, recipes):
     return len(em["alchemy"])
 
 
+
+# ======================================================================= objetivos
+
+def goal_bar(active_id):
+    """Seletor horizontal entre as metas, presente em toda pagina de objetivo."""
+    chips = "".join(
+        f'<a href="obj-{g["id"]}.html"'
+        f'{" class=\"on\"" if g["id"] == active_id else ""}>{e(g["nav"])}</a>'
+        for g in goals_mod.GOALS)
+    return f'<nav class="goalbar">{chips}</nav>'
+
+
+def build_goal(g, atlas):
+    parts = [goal_bar(g["id"]),
+             f'<p class="eyebrow">Objetivo &middot; {e(g["quando"])}</p>',
+             f'<h1>{e(g["titulo"])}</h1>',
+             f'<p class="lede">{e(g["lede"])}</p>']
+
+    routes = []
+    for i, b in enumerate(g["blocos"]):
+        parts.append(f'<h2>{e(b["h"])}</h2>')
+        if b.get("html"):
+            parts.append(b["html"])
+        if b.get("itens"):
+            parts.append(f'<div class="routes" id="rt{i}"></div>')
+            routes.append((f"rt{i}", b["itens"]))
+
+    js = ("const ROUTES = %s;\n" % json.dumps(routes, ensure_ascii=False)) + r"""
+(async () => {
+  if (!ROUTES.length) return;
+  await Promise.all([loadNames(), loadAtlas(), loadTags(), loadRecipes()]);
+  const idx = buildIndex();
+  ROUTES.forEach(([slot, ids]) => {
+    const box = document.getElementById(slot);
+    if (!box) return;
+    const frag = document.createDocumentFragment();
+    ids.forEach((id) => {
+      const made = (idx.made.get(id) || []).map((i) => W.recipes[i])
+        .filter((r) => !r.removed);
+      const h = document.createElement("h3");
+      const ic = icon(id, true);
+      ic.style.verticalAlign = "middle";
+      h.appendChild(ic);
+      h.appendChild(document.createTextNode(" " + nameOf(id)));
+      frag.appendChild(h);
+      if (!made.length) {
+        const p = document.createElement("p");
+        p.className = "empty";
+        p.textContent = "Nenhuma receita produz este item — vem de drop, ritual ou geração.";
+        frag.appendChild(p);
+        return;
+      }
+      // ranking: o banco nao sabe o que e alcancavel neste pack.
+      // minerio so existe tarde (Orechid), entao rota que parte de minerio
+      // nao pode encabecar uma pagina de "como conseguir".
+      const ORE = /(_ore$|ores?\/|^minecraft:raw_|_raw_|:raw_|raw_materials?\/)/;
+      const SMELT = /smelting|blasting/;
+      // desempacotar (bloco->lingote, nugget->lingote) e reversivel: nao e
+      // "de onde vem", e so troco de formato
+      const PACKING = /(_block$|_nugget$|block_of|nuggets?\/|storage_blocks?\/|_blocks$)/;
+      const outIds = new Set((made[0] ? [id] : []));
+      const score = (r) => {
+        let v = 0;
+        if (r.pack) v -= 3;                                   // receita do pack: relevante
+        if ((r.in || []).some((x) => ORE.test(x.id))) v += 5;  // depende de minerio
+        if ((r.in || []).some((x) => PACKING.test(x.id))) v += 4;  // so muda de formato
+        if ((r.in || []).some((x) => outIds.has(x.id))) v += 6;    // entra e sai o mesmo
+        if (SMELT.test(r.t)) v += 2;                           // etapa final, nao origem
+        v += (r.in || []).length * 0.1;                        // simples primeiro
+        return v;
+      };
+      made.sort((a, b) => score(a) - score(b));
+
+      made.slice(0, 8).forEach((r) => frag.appendChild(recipeCard(r, (en) => {
+        if (en.k === "i") location.href = "itens.html?id=" + encodeURIComponent(en.id);
+      })));
+      if (made.length > 8) {
+        const p = document.createElement("p");
+        p.className = "dim mono";
+        const a = document.createElement("a");
+        a.href = "itens.html?id=" + encodeURIComponent(id);
+        a.textContent = "ver todas as " + made.length;
+        p.appendChild(document.createTextNode("mostrando 8 de " + made.length + " — "));
+        p.appendChild(a);
+        frag.appendChild(p);
+      }
+    });
+    box.replaceChildren(frag);
+  });
+})();
+"""
+    page(f'obj-{g["id"]}.html', g["titulo"], "objetivos.html",
+         "\n".join(parts), js, atlas, narrow=True)
+
+
+def build_goals_index():
+    cards = "".join(
+        f'<a href="obj-{g["id"]}.html"><p class="t">{e(g["titulo"])}</p>'
+        f'<p class="d">{e(g["lede"][:130])}...</p>'
+        f'<p class="c">{e(g["quando"])}</p></a>'
+        for g in goals_mod.GOALS)
+    body = f"""
+<p class="eyebrow">Por onde você está travado</p>
+<h1>Objetivos</h1>
+<p class="lede">A wiki é organizada pelo que você precisa fazer, não por mod. Escolha o
+problema e a página junta as rotas de todos os mods que resolvem aquilo.</p>
+<div class="hub">{cards}</div>
+"""
+    page("objetivos.html", "Objetivos", "objetivos.html", body, narrow=True)
+
+
+def build_referencia(stats):
+    items = [
+        ("guia.html", "Guia de progressão completo",
+         "Os 9 atos na ordem do questbook, num documento só. Use quando quiser ler "
+         "linear em vez de consultar."),
+        ("embers.html", "Embers Rekindled",
+         "Guia do mod, as combinações de alquimia e o solver de aspectus por seed."),
+        ("plantas.html", "Plantas e cruzamento",
+         f'{stats["plants"]} plantas do AgriCraft com solo, luz e estação, '
+         f'e as {stats["mutations"]} mutações.'),
+        ("abelhas.html", "Abelhas",
+         f'{stats["species"]} espécies com genética e a cadeia de mutação.'),
+        ("rituais.html", "Rituais",
+         "O livro exclusivo do pack e os rites de circle magic com reagentes."),
+        ("mods.html", "Mods da instalação",
+         "Os 170 mods com versão e função dentro do pack."),
+        ("livros.html", "Livros in-game",
+         "Índice dos guidebooks de cada mod."),
+    ]
+    cards = "".join(
+        f'<a href="{h}"><p class="t">{e(t)}</p><p class="d">{e(d)}</p></a>'
+        for h, t, d in items)
+    body = f"""
+<p class="eyebrow">Consulta</p>
+<h1>Referência</h1>
+<p class="lede">Os dados brutos e os guias por mod. Se você sabe o que procura, é aqui.
+Se está travado, comece por <a href="objetivos.html">Objetivos</a>.</p>
+<div class="hub">{cards}</div>
+"""
+    page("referencia.html", "Referência", "referencia.html", body, narrow=True)
+
+
 def build_alteracoes(atlas):
     body = """
 <p class="eyebrow">Alterado pelo pack</p>
@@ -999,6 +1135,10 @@ def main():
     build_mods(mods)
     n_pages = build_livros(books)
 
+    for g in goals_mod.GOALS:
+        build_goal(g, atlas)
+    build_goals_index()
+
     stats = {
         "recipes": len(recipes),
         "names": len(names),
@@ -1012,6 +1152,7 @@ def main():
         "book_pages": n_pages,
         "alquimia": n_alq,
     }
+    build_referencia(stats)
     build_index(stats)
 
     total = sum(os.path.getsize(os.path.join(dp, f))

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plantar e comer</title>
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/wiki.css">
+<style>:root{--acols:96;--arows:154}</style>
+</head>
+<body>
+<header class="gnav"><div class="gnav-in"><a class="brand" href="index.html">The Kings <span>Reclamation</span></a><nav><a href="index.html">Início</a><a href="objetivos.html" class="on">Objetivos</a><a href="itens.html">Itens</a><a href="alteracoes.html">Alterações</a><a href="referencia.html">Referência</a></nav></div></header>
+<main class="page narrow">
+<nav class="goalbar"><a href="obj-sobreviver.html">Sobreviver</a><a href="obj-terra.html">Terra e grama</a><a href="obj-metal.html">Metal</a><a href="obj-energia.html">Energia</a><a href="obj-comida.html" class="on">Comida</a><a href="obj-automatizar.html">Automatizar</a><a href="obj-gemas.html">Gemas</a><a href="obj-vida.html">Vida animal</a><a href="obj-endgame.html">Reclamar o mundo</a></nav>
+<p class="eyebrow">Objetivo &middot; assim que tiver terra</p>
+<h1>Plantar e comer</h1>
+<p class="lede">Sementes existem, mas nasceram adaptadas à seca: produzem pouco. AgriCraft é o sistema que conserta isso, e é onde a maioria trava.</p>
+<h2>Os cinco stats</h2>
+
+<div class="tbl"><table>
+<thead><tr><th>Stat</th><th>Efeito</th></tr></thead><tbody>
+<tr><td><strong>Fertility</strong></td><td>chance de ser escolhida como mãe</td></tr>
+<tr><td><strong>Gain</strong></td><td>quanto produz ao colher</td></tr>
+<tr><td><strong>Growth</strong></td><td>velocidade</td></tr>
+<tr><td><strong>Mutativity</strong></td><td>chance do cruzamento ser bom</td></tr>
+<tr><td><strong>Strength</strong></td><td>amplia os solos e ambientes aceitos</td></tr>
+</tbody></table></div>
+<div class="note tip"><span class="lbl">O truque que muda o início</span>
+<p>Plante em <strong>cruz (+)</strong> com o crop stick vazio no meio: o cruzamento passa
+a ter <strong>4 chances</strong> de escolher pais em vez de 2.</p>
+<p>E <strong>Strength</strong> é o stat mais subestimado — com ele alto, a planta aceita
+solos que normalmente recusaria.</p></div>
+<p>A tabela completa de requisitos e as 124 mutações estão em
+<a href="plantas.html">Plantas</a>.</p>
+<h2>Cozinha</h2>
+
+<p>O <strong>Cooking Table</strong> é o coração: crafta qualquer comida com o que estiver
+nos gabinetes. Módulos: Fridge, Oven, Sink (água infinita), Tool Rack e Cow in a Jar.</p>
+<p><strong>Organic Compost</strong> vira <strong>Rich Soil</strong>, que cresce mais
+rápido que farmland. E o <strong>Composter</strong> transforma semente sobrando em
+bonemeal.</p>
+<div class="routes" id="rt1"></div>
+<p class="foot">Wiki gerada a partir da instalação local — Reclamation 2.3.2 · Minecraft 1.20.1 · Forge 47.4.0.<br>Dados extraídos dos 169 jars, do datapack do pack e dos scripts KubeJS executados.<br>Se o modpack for atualizado, receitas podem mudar: o EMI in-game é a fonte definitiva.</p>
+</main>
+<script src="assets/wiki.js"></script>
+<script>const ROUTES = [["rt1", ["cookingforblockheads:cooking_table", "farmersdelight:organic_compost"]]];
+
+(async () => {
+  if (!ROUTES.length) return;
+  await Promise.all([loadNames(), loadAtlas(), loadTags(), loadRecipes()]);
+  const idx = buildIndex();
+  ROUTES.forEach(([slot, ids]) => {
+    const box = document.getElementById(slot);
+    if (!box) return;
+    const frag = document.createDocumentFragment();
+    ids.forEach((id) => {
+      const made = (idx.made.get(id) || []).map((i) => W.recipes[i])
+        .filter((r) => !r.removed);
+      const h = document.createElement("h3");
+      const ic = icon(id, true);
+      ic.style.verticalAlign = "middle";
+      h.appendChild(ic);
+      h.appendChild(document.createTextNode(" " + nameOf(id)));
+      frag.appendChild(h);
+      if (!made.length) {
+        const p = document.createElement("p");
+        p.className = "empty";
+        p.textContent = "Nenhuma receita produz este item — vem de drop, ritual ou geração.";
+        frag.appendChild(p);
+        return;
+      }
+      // ranking: o banco nao sabe o que e alcancavel neste pack.
+      // minerio so existe tarde (Orechid), entao rota que parte de minerio
+      // nao pode encabecar uma pagina de "como conseguir".
+      const ORE = /(_ore$|ores?\/|^minecraft:raw_|_raw_|:raw_|raw_materials?\/)/;
+      const SMELT = /smelting|blasting/;
+      // desempacotar (bloco->lingote, nugget->lingote) e reversivel: nao e
+      // "de onde vem", e so troco de formato
+      const PACKING = /(_block$|_nugget$|block_of|nuggets?\/|storage_blocks?\/|_blocks$)/;
+      const outIds = new Set((made[0] ? [id] : []));
+      const score = (r) => {
+        let v = 0;
+        if (r.pack) v -= 3;                                   // receita do pack: relevante
+        if ((r.in || []).some((x) => ORE.test(x.id))) v += 5;  // depende de minerio
+        if ((r.in || []).some((x) => PACKING.test(x.id))) v += 4;  // so muda de formato
+        if ((r.in || []).some((x) => outIds.has(x.id))) v += 6;    // entra e sai o mesmo
+        if (SMELT.test(r.t)) v += 2;                           // etapa final, nao origem
+        v += (r.in || []).length * 0.1;                        // simples primeiro
+        return v;
+      };
+      made.sort((a, b) => score(a) - score(b));
+
+      made.slice(0, 8).forEach((r) => frag.appendChild(recipeCard(r, (en) => {
+        if (en.k === "i") location.href = "itens.html?id=" + encodeURIComponent(en.id);
+      })));
+      if (made.length > 8) {
+        const p = document.createElement("p");
+        p.className = "dim mono";
+        const a = document.createElement("a");
+        a.href = "itens.html?id=" + encodeURIComponent(id);
+        a.textContent = "ver todas as " + made.length;
+        p.appendChild(document.createTextNode("mostrando 8 de " + made.length + " — "));
+        p.appendChild(a);
+        frag.appendChild(p);
+      }
+    });
+    box.replaceChildren(frag);
+  });
+})();
+</script>
+</body>
+</html>

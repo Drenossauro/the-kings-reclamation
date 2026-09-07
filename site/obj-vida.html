@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trazer os animais de volta</title>
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/wiki.css">
+<style>:root{--acols:96;--arows:154}</style>
+</head>
+<body>
+<header class="gnav"><div class="gnav-in"><a class="brand" href="index.html">The Kings <span>Reclamation</span></a><nav><a href="index.html">Início</a><a href="objetivos.html" class="on">Objetivos</a><a href="itens.html">Itens</a><a href="alteracoes.html">Alterações</a><a href="referencia.html">Referência</a></nav></div></header>
+<main class="page narrow">
+<nav class="goalbar"><a href="obj-sobreviver.html">Sobreviver</a><a href="obj-terra.html">Terra e grama</a><a href="obj-metal.html">Metal</a><a href="obj-energia.html">Energia</a><a href="obj-comida.html">Comida</a><a href="obj-automatizar.html">Automatizar</a><a href="obj-gemas.html">Gemas</a><a href="obj-vida.html" class="on">Vida animal</a><a href="obj-endgame.html">Reclamar o mundo</a></nav>
+<p class="eyebrow">Objetivo &middot; depois da aura estável</p>
+<h1>Trazer os animais de volta</h1>
+<p class="lede">Não existe animal no mundo. Você precisa literalmente fabricar a primeira galinha — e a partir dela, o resto da fauna.</p>
+<h2>A primeira galinha</h2>
+
+<p>Na <strong>Offering Table</strong> você infunde itens em versões empoderadas. Com os
+quatro amálgamas do pack (Feather-Flesh, Blooded, Mana-Dosed e Infused) sai o
+<strong>Chicken Spawn Egg</strong>.</p>
+<div class="note warn"><span class="lbl">A Offering Table mudou neste pack</span>
+<p>A receita normal do Nature's Aura <strong>foi removida</strong>. A única via é
+<strong>alquimia do Embers</strong>, e ela consome um <strong>Runic Altar</strong>
+inteiro. A combinação de aspectus está no
+<a href="embers.html">solver do Embers</a>.</p></div>
+<div class="routes" id="rt0"></div>
+<h2>Altar of Birthing</h2>
+
+<p>Em área de <strong>aura alta</strong>, acasalar mobs gera <strong>Spirits of
+Birthing</strong>. Jogue o spirit e os reagentes no altar para invocar criaturas novas —
+inclusive Siren, Whirlisprig, Drygmy, Wixie e Starbuncle.</p>
+<p>O <strong>Drygmy</strong> merece destaque: ele gera drops e XP de mobs
+<strong>sem matar nenhum</strong>.</p>
+<div class="routes" id="rt1"></div>
+<p class="foot">Wiki gerada a partir da instalação local — Reclamation 2.3.2 · Minecraft 1.20.1 · Forge 47.4.0.<br>Dados extraídos dos 169 jars, do datapack do pack e dos scripts KubeJS executados.<br>Se o modpack for atualizado, receitas podem mudar: o EMI in-game é a fonte definitiva.</p>
+</main>
+<script src="assets/wiki.js"></script>
+<script>const ROUTES = [["rt0", ["naturesaura:offering_table", "minecraft:chicken_spawn_egg"]], ["rt1", ["naturesaura:animal_spawner"]]];
+
+(async () => {
+  if (!ROUTES.length) return;
+  await Promise.all([loadNames(), loadAtlas(), loadTags(), loadRecipes()]);
+  const idx = buildIndex();
+  ROUTES.forEach(([slot, ids]) => {
+    const box = document.getElementById(slot);
+    if (!box) return;
+    const frag = document.createDocumentFragment();
+    ids.forEach((id) => {
+      const made = (idx.made.get(id) || []).map((i) => W.recipes[i])
+        .filter((r) => !r.removed);
+      const h = document.createElement("h3");
+      const ic = icon(id, true);
+      ic.style.verticalAlign = "middle";
+      h.appendChild(ic);
+      h.appendChild(document.createTextNode(" " + nameOf(id)));
+      frag.appendChild(h);
+      if (!made.length) {
+        const p = document.createElement("p");
+        p.className = "empty";
+        p.textContent = "Nenhuma receita produz este item — vem de drop, ritual ou geração.";
+        frag.appendChild(p);
+        return;
+      }
+      // ranking: o banco nao sabe o que e alcancavel neste pack.
+      // minerio so existe tarde (Orechid), entao rota que parte de minerio
+      // nao pode encabecar uma pagina de "como conseguir".
+      const ORE = /(_ore$|ores?\/|^minecraft:raw_|_raw_|:raw_|raw_materials?\/)/;
+      const SMELT = /smelting|blasting/;
+      // desempacotar (bloco->lingote, nugget->lingote) e reversivel: nao e
+      // "de onde vem", e so troco de formato
+      const PACKING = /(_block$|_nugget$|block_of|nuggets?\/|storage_blocks?\/|_blocks$)/;
+      const outIds = new Set((made[0] ? [id] : []));
+      const score = (r) => {
+        let v = 0;
+        if (r.pack) v -= 3;                                   // receita do pack: relevante
+        if ((r.in || []).some((x) => ORE.test(x.id))) v += 5;  // depende de minerio
+        if ((r.in || []).some((x) => PACKING.test(x.id))) v += 4;  // so muda de formato
+        if ((r.in || []).some((x) => outIds.has(x.id))) v += 6;    // entra e sai o mesmo
+        if (SMELT.test(r.t)) v += 2;                           // etapa final, nao origem
+        v += (r.in || []).length * 0.1;                        // simples primeiro
+        return v;
+      };
+      made.sort((a, b) => score(a) - score(b));
+
+      made.slice(0, 8).forEach((r) => frag.appendChild(recipeCard(r, (en) => {
+        if (en.k === "i") location.href = "itens.html?id=" + encodeURIComponent(en.id);
+      })));
+      if (made.length > 8) {
+        const p = document.createElement("p");
+        p.className = "dim mono";
+        const a = document.createElement("a");
+        a.href = "itens.html?id=" + encodeURIComponent(id);
+        a.textContent = "ver todas as " + made.length;
+        p.appendChild(document.createTextNode("mostrando 8 de " + made.length + " — "));
+        p.appendChild(a);
+        frag.appendChild(p);
+      }
+    });
+    box.replaceChildren(frag);
+  });
+})();
+</script>
+</body>
+</html>

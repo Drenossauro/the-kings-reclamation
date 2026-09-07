@@ -231,6 +231,26 @@ tr:last-child td{border-bottom:0}
 .scrim{position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:70; display:none}
 .scrim.on{display:block}
 
+/* ---------- seletor de objetivos ---------- */
+.goalbar{
+  display:flex; flex-wrap:wrap; gap:4px; margin:0 0 26px;
+  padding:0 0 14px; border-bottom:1px solid var(--line);
+}
+.goalbar a{
+  font-family:"Oswald",Impact,sans-serif; font-size:12px; text-transform:uppercase;
+  letter-spacing:.04em; color:var(--ink-3); text-decoration:none;
+  padding:5px 10px; border:1px solid var(--line); border-radius:99px;
+  background:var(--surface);
+}
+.goalbar a:hover{color:var(--ink); border-color:var(--ink-3)}
+.goalbar a.on{
+  color:var(--ground); background:var(--verdigris); border-color:var(--verdigris);
+}
+
+/* ---------- rotas vindas do banco ---------- */
+.routes{margin:0 0 8px}
+.routes h3{margin:22px 0 8px; display:flex; gap:8px; align-items:center}
+
 /* ---------- botoes ---------- */
 .btn{
   font-family:"Oswald",Impact,sans-serif; text-transform:uppercase; font-size:12.5px;
@@ -397,6 +417,13 @@ function recipeCard(r, onItem) {
   t.className = "rec-t";
   t.textContent = recipeTypeLabel(r.t);
   h.appendChild(t);
+  if ((r.in || []).some((x) => /(_ore$|ores?\/|^minecraft:raw_|_raw_|:raw_|raw_materials?\/)/.test(x.id))) {
+    const b = document.createElement("span");
+    b.className = "badge";
+    b.title = "Nenhum minerio gera neste mundo; so via Orechid, no late game.";
+    b.textContent = "precisa de minerio";
+    h.appendChild(b);
+  }
   if (r.pack) {
     const b = document.createElement("span");
     b.className = "badge pack";
