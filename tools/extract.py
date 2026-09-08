@@ -619,6 +619,11 @@ def apply_removals(recipes, removals):
         for e in r["in"]:
             by_in[e["id"]].append(i)
 
+    # o pack remove e recria com o MESMO id (ex.: golden_chalk). Como as
+    # remocoes sao aplicadas depois de tudo, elas matavam a substituta:
+    # receita adicionada pelo pack nunca e alvo de remocao do proprio pack.
+    pack_added = {i for i, r in enumerate(recipes) if r.get("pack")}
+
     removed = set()
     unmatched = []
     for rm in removals:
@@ -650,6 +655,7 @@ def apply_removals(recipes, removals):
         if not hit:
             unmatched.append(rm)
 
+    removed -= pack_added
     for i in removed:
         recipes[i]["removed"] = 1
     return len(removed), unmatched
